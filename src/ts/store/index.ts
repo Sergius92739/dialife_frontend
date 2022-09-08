@@ -8,7 +8,7 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     post: postReducer,
-  },
+  }
 });
 
 export type TAppDispatch = typeof store.dispatch;
