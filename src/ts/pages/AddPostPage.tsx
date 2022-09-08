@@ -1,0 +1,119 @@
+import React, { useState, ChangeEvent, useEffect, createRef, MutableRefObject } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { Paths } from '../paths';
+import { checkAuth } from '../slices/authSlice/authSlice';
+import { createPost } from '../slices/postSlice/asyncFunc';
+import { postErrorSelector, postStatusSelector } from '../slices/postSlice/postSlice';
+
+export const AddPostPage = (): JSX.Element => {
+  const [title, setTitle] = useState('');
+  const [text, setText] = useState('');
+  const [image, setImage] = useState(new Blob(['']));
+  const postError = useAppSelector(postErrorSelector);
+  const postStatus = useAppSelector(postStatusSelector);
+  const isAuth = useAppSelector(checkAuth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const inputFileEl = createRef() as MutableRefObject<HTMLInputElement>;
+
+  useEffect(() => {
+
+  }, [postError, postStatus])
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length) {
+      setImage(e.target.files[0]);
+    }
+  }
+
+  const handleSubmit = () => {
+    try {
+      const data = new FormData();
+      data.append('title', title)
+      data.append('text', text)
+      data.append('image', image as Blob)
+      dispatch(createPost(data));
+      resetForm();
+      navigate(Paths.POSTS);
+    } catch (error: any) {
+      console.error(error);
+    }
+  }
+
+  const resetForm = () => {
+    setImage(new Blob(['']));
+    setText('');
+    setTitle('');
+    inputFileEl.current.value = ''
+  }
+
+  return (
+    <>
+      {
+        isAuth && <form
+          className='w-1/2 mx-auto text-[#404242]'
+          onSubmit={e => e.preventDefault()}
+        >
+          <h1 className='text-2xl text-center font-black'>Добавление поста</h1>
+          <div className='mt-7 text-center'>
+            <label className='font-bold block py-2 bg-[#58A9A5] text-white rounded-lg text-xl cursor-pointer' htmlFor="image">
+              Прикрепить изображение
+              <input
+                ref={inputFileEl}
+                id='image'
+                type="file"
+                className='hidden'
+                onChange={handleImageChange}
+              />
+            </label>
+          </div>
+          {
+            image.size ? <div className="flex py-2">
+              <img src={URL.createObjectURL(image)} alt="article img" />
+            </div> : null
+          }
+          <div className='mt-5'>
+            <label className='font-bold' htmlFor="title">Заголовок поста:</label>
+            <input
+              id='title'
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder='Введите заголовок'
+              className='w-full p-2 border-2 rounded-lg border-[#58A9A5] outline-none placeholder:text-gray-400 mt-2'
+              required
+            />
+          </div>
+          <div className='mt-5'>
+            <label className='font-bold' htmlFor="text">Текст поста:</label>
+            <textarea
+              id='text'
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder='Введите текст поста'
+              className='w-full h-[250px] border-2 p-2 border-[#58A9A5] rounded-lg outline-none resize-none placeholder:text-gray-400 mt-2'
+              required
+            />
+          </div>
+          <div className="mt-5 flex justify-between">
+            <button
+              type='submit'
+              className='px-12 py-2.5 bg-[#58A9A5] text-white rounded-lg text-xl'
+              onClick={handleSubmit}
+            >
+              Добавить пост
+            </button>
+            <button
+              type='button'
+              onClick={resetForm}
+              className='px-12 py-2.5 bg-[#fc5c65] text-white rounded-lg text-xl'
+            >
+              Отменить
+            </button>
+          </div>
+        </form>
+      }
+    </>
+  )
+}
