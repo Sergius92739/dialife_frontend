@@ -20,7 +20,9 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getMe());
+    if (window.localStorage.getItem('token')) {
+      dispatch(getMe());
+    }
   }, [dispatch])
 
   return (

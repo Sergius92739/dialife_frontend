@@ -10,6 +10,7 @@ export interface IUser {
   _id: string,
   username: string,
   password: string,
+  avatar: string,
   isAdmin: boolean,
   posts: [],
   createdAt: string,

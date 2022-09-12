@@ -10,47 +10,47 @@ export const NavBar = (): JSX.Element => {
 
   return (
     <>
-      {
-        isAuth && <ul className='flex gap-7' >
-          <li>
-            <NavLink
-              className={'text-[#404242] text-base hover:text-[#58A9A5]'}
-              to={Paths.HOME}>
-              Главная
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className={'text-[#404242] text-base hover:text-[#58A9A5]'}
-              to={Paths.POSTS}>
-              Посты
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className={'text-[#404242] text-base hover:text-[#58A9A5]'}
-              to={Paths.ARTICLES}>
-              Статьи
-            </NavLink>
-          </li>
-          <li>
+      <ul className='flex gap-7 list-none m-0 p-0' >
+        <li>
+          <NavLink
+            className={'text-[#404242] text-base hover:text-[#58A9A5]'}
+            to={Paths.HOME}>
+            Главная
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={'text-[#404242] text-base hover:text-[#58A9A5]'}
+            to={Paths.POSTS}>
+            Посты
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={'text-[#404242] text-base hover:text-[#58A9A5]'}
+            to={Paths.ARTICLES}>
+            Статьи
+          </NavLink>
+        </li>
+        {
+          isAuth && <li>
             <NavLink
               className={'text-[#404242] text-base hover:text-[#58A9A5]'}
               to={Paths.NEW_POST}>
               Добавить пост
             </NavLink>
           </li>
-          {
-           isAdmin && <li>
-              <NavLink
-                className={'text-[#404242] text-base hover:text-[#58A9A5]'}
-                to={Paths.ADMIN}>
-                Админка
-              </NavLink>
-            </li>
-          }
-        </ul >
-      }
+        }
+        {
+          isAdmin && <li>
+            <NavLink
+              className={'text-[#404242] text-base hover:text-[#58A9A5]'}
+              to={Paths.ADMIN}>
+              Админка
+            </NavLink>
+          </li>
+        }
+      </ul >
     </>
   )
 }

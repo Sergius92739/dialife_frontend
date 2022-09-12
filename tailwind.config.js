@@ -18,7 +18,7 @@ module.exports = {
         text: {
           '50%': {color: '#000'}
         }
-      }
+      },
     },
   },
   plugins: [],

@@ -14,4 +14,17 @@ export const createPost = createAsyncThunk(
 
     return response.data;
   }
+);
+
+export const getAllPosts = createAsyncThunk(
+  'post/getAllPosts',
+  async () => {
+    const response = await instAxios.get('/posts/all');
+
+    if (response.status !== 200) {
+      throw new Error(response.statusText);
+    }
+
+    return response.data;
+  }
 )

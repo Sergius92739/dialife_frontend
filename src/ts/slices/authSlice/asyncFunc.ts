@@ -8,11 +8,8 @@ type TRegisterProps = {
 
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
-  async ({ username, password }: TRegisterProps) => {
-    const response = await instAxios.post('/auth/register', {
-      username,
-      password,
-    });
+  async (params: FormData) => {
+    const response = await instAxios.post('/auth/register', params);
 
     if (response.status !== 200) {
       throw new Error(response.statusText);

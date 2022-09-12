@@ -32,7 +32,7 @@ export const Layout = (): JSX.Element => {
 
     if (authStatus?.startsWith('Ошибка') && !authError) {
       toast.error(authStatus, { theme: 'colored' });
-      dispatch(resetAuthStatus());      
+      dispatch(resetAuthStatus());
     }
 
     if (authStatus === 'Данный username уже занят.' || authStatus === 'Такого юзера не существует.') {
@@ -61,13 +61,15 @@ export const Layout = (): JSX.Element => {
   }, [authError, authStatus, postError, postStatus, dispatch])
 
   return (
-    <div className='container mx-auto px-2 flex flex-col min-h-screen'>
-      <Header />
-      <Main>
-        <Outlet />
-      </Main>
-      <Footer />
-      <ToastContainer position="bottom-right" />
+    <div className='flex flex-col min-h-screen bg-[#f0f0f0]'>
+      {/* <div className='container mx-auto px-2 flex flex-col min-h-screen'> */}
+        <Header />
+        <Main>
+          <Outlet />
+        </Main>
+        <Footer />
+        <ToastContainer position="bottom-right" />
+      {/* </div> */}
     </div>
   )
 }

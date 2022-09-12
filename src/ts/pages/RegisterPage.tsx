@@ -1,18 +1,22 @@
-import React, { useEffect, useState, FormEvent, ChangeEvent } from 'react';
+import React, { useEffect, useState, FormEvent, ChangeEvent, createRef, MutableRefObject } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Loading } from '../components/Loading';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { Paths } from '../paths';
 import { checkAuth, isLoadingSelector } from '../slices/authSlice/authSlice';
 import { registerUser } from '../slices/authSlice/asyncFunc'
+import no_avatar from '../../img/no_avatar.jpg';
 
 export const RegisterPage = (): JSX.Element => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [image, setImage] = useState(new Blob(['']));
   const dispatch = useAppDispatch();
   const isAuth = useAppSelector(checkAuth);
   const isLoading = useAppSelector(isLoadingSelector);
   const navigate = useNavigate();
+  const inputFileEl = createRef() as MutableRefObject<HTMLInputElement>;
+
 
   useEffect(() => {
     if (isAuth) {
@@ -23,7 +27,11 @@ export const RegisterPage = (): JSX.Element => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      dispatch(registerUser({ username, password }));
+      const data = new FormData();
+      data.append('username', username)
+      data.append('password', password)
+      data.append('avatar', image)
+      dispatch(registerUser(data));
       setPassword('');
       setUsername('');
     } catch (error: any) {
@@ -39,6 +47,12 @@ export const RegisterPage = (): JSX.Element => {
     setPassword(e.target.value);
   }
 
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length) {
+      setImage(e.target.files[0]);
+    }
+  }
+
   return (
     <>
       {
@@ -46,9 +60,30 @@ export const RegisterPage = (): JSX.Element => {
       }
       <form
         onSubmit={handleSubmit}
-        className='w-1/3 mx-auto text-[#404242] mt-20'
+        className='w-1/3 mx-auto text-[#404242] mt-10'
       >
         <h1 className='text-2xl text-center font-black'>Регистрация</h1>
+        <div className="w-[100px] h-[100px] p-4 rounded-full mx-auto mt-5"
+          style={{
+            backgroundImage: `url(${image.size ? URL.createObjectURL(image) : no_avatar})`,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+          }}
+        >
+        </div>
+        <div className='mt-7 text-center'>
+          <label className='font-bold block py-2 bg-[#58A9A5] text-white rounded-lg text-xl cursor-pointer' htmlFor="image">
+            {!image.size ? 'Добавить аватар' : 'Изменить аватар'}
+            <input
+              ref={inputFileEl}
+              id='image'
+              type="file"
+              className='hidden'
+              onChange={handleImageChange}
+            />
+          </label>
+        </div>
         <div className='mt-7'>
           <label className='font-bold' htmlFor="username">Логин:</label>
           <input
@@ -57,7 +92,7 @@ export const RegisterPage = (): JSX.Element => {
             value={username}
             type="text"
             placeholder='Введите логин'
-            className='w-full border-b-4 border-[#58A9A5] outline-none placeholder:text-gray-400 mt-2'
+            className='w-full border-b-4 border-[#58A9A5] outline-none placeholder:text-gray-400 mt-2 bg-inherit'
             required
           />
         </div>
@@ -69,7 +104,7 @@ export const RegisterPage = (): JSX.Element => {
             value={password}
             type="password"
             placeholder='Введите пароль'
-            className='w-full border-b-4 border-[#58A9A5] outline-none placeholder:text-gray-400 mt-2'
+            className='w-full border-b-4 border-[#58A9A5] outline-none placeholder:text-gray-400 mt-2 bg-inherit'
             required
           />
         </div>

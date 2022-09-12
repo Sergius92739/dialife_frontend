@@ -43,7 +43,7 @@ export const LoginPage = (): JSX.Element => {
         isLoading && <Loading />
       }
       <form
-        className='w-1/3 mx-auto text-[#404242] mt-20'
+        className='w-1/3 mx-auto text-[#404242] mt-10'
         onSubmit={handleSubmit}
       >
         <h1 className='text-2xl text-center font-black'>Авторизация</h1>
@@ -55,7 +55,7 @@ export const LoginPage = (): JSX.Element => {
             onChange={handleUserName}
             type="text"
             placeholder='Введите логин'
-            className='w-full border-b-4 border-[#58A9A5] outline-none placeholder:text-gray-400 mt-2'
+            className='w-full border-b-4 border-[#58A9A5] outline-none placeholder:text-gray-400 mt-2 bg-inherit'
             required
           />
         </div>
@@ -67,7 +67,7 @@ export const LoginPage = (): JSX.Element => {
             onChange={handlePassword}
             type="password"
             placeholder='Введите пароль'
-            className='w-full border-b-4 border-[#58A9A5] outline-none placeholder:text-gray-400 mt-2'
+            className='w-full border-b-4 border-[#58A9A5] outline-none placeholder:text-gray-400 mt-2 bg-inherit'
             required
           />
         </div>

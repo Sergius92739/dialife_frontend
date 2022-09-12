@@ -2,7 +2,7 @@ import { IUser } from "../authSlice/interfaces";
 
 export interface IPostState {
   posts: IPost[],
-  popularPosts: [],
+  popularPosts: IPost[],
   isLoading: boolean,
   error: Error | null,
   status: string | null,
@@ -11,10 +11,13 @@ export interface IPostState {
 export interface IPost {
   _id: string,
   username: string,
+  avatar: string,
   title: string,
   text: string,
   imgUrl: string,
   views: number,
+  like: number,
+  dislike: number,
   author: IUser,
   comments: [],
   createdAt: string,

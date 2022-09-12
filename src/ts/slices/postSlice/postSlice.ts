@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TRootState } from '../../store';
-import { createPost } from './asyncFunc';
+import { createPost, getAllPosts } from './asyncFunc';
 import { IPost, IPostState } from './interfaces';
 
 const initialState: IPostState = {
@@ -39,7 +39,23 @@ export const postSlice = createSlice({
       state.isLoading = false;
       state.error = action.error;
       state.status = action.error.message;
-    }
+    },
+    // Getting all posts
+    [getAllPosts.pending.type]: (state: IPostState) => {
+      state.isLoading = true;
+      state.status = null;
+      state.error = null;
+    },
+    [getAllPosts.fulfilled.type]: (state: IPostState, action: PayloadAction<{ posts: IPost[], popularPosts: IPost[] }>) => {
+      state.isLoading = false;
+      state.posts = action.payload.posts;
+      state.popularPosts = action.payload.popularPosts;
+    },
+    [getAllPosts.rejected.type]: (state: IPostState, action: any) => {
+      state.isLoading = false;
+      state.error = action.error;
+      state.status = action.error.message;
+    },
   },
 });
 

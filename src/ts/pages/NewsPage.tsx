@@ -4,7 +4,7 @@ import { useAppSelector } from '../hooks/hooks';
 import { statusSelector } from '../slices/authSlice/authSlice';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Banner } from '../components/Main/Banner';
+import { Banner } from '../components/Banner';
 
 export const NewsPage = (): JSX.Element => {
   const status = useAppSelector(statusSelector);
