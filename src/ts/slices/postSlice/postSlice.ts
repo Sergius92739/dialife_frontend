@@ -2,10 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TRootState } from "../../store";
 import {
   createPost,
-  getAllPosts,
-  fetchLike,
-  fetchDislike,
-  getPostById,
+  getAllPosts
 } from "./asyncFunc";
 import { IPost, IPostState } from "./interfaces";
 
@@ -25,6 +22,9 @@ export const postSlice = createSlice({
     resetPostStatus: (state: IPostState) => {
       state.status = null;
     },
+    updatePosts: (state: IPostState) => {
+      
+    }
   },
   extraReducers: {
     // Create post
@@ -70,7 +70,7 @@ export const postSlice = createSlice({
       state.status = action.error.message;
     },
     // Get post by id
-    [getPostById.pending.type]: (state: IPostState) => {
+    /* [getPostById.pending.type]: (state: IPostState) => {
       state.isLoading = true;
       state.error = null;
       state.status = null;
@@ -86,9 +86,9 @@ export const postSlice = createSlice({
       state.error = action.error;
       state.status = action.error.message;
       state.isLoading = false;
-    },
+    }, */
     // Like handler
-    [fetchLike.pending.type]: (state: IPostState) => {
+    /* [fetchLike.pending.type]: (state: IPostState) => {
       state.isLoading = true;
       state.error = null;
       state.status = null;
@@ -105,9 +105,9 @@ export const postSlice = createSlice({
       state.error = action.error;
       state.status = action.error.message;
       state.isLoading = false;
-    },
+    }, */
     // Dislike handler
-    [fetchDislike.pending.type]: (state: IPostState) => {
+    /* [fetchDislike.pending.type]: (state: IPostState) => {
       state.isLoading = true;
       state.error = null;
       state.status = null;
@@ -124,7 +124,7 @@ export const postSlice = createSlice({
       state.error = action.error;
       state.status = action.error.message;
       state.isLoading = false;
-    },
+    }, */
   },
 });
 

@@ -16,22 +16,21 @@ import {
 import { IPost } from "../slices/postSlice/interfaces";
 import DOMPurify from "dompurify";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { fetchDislike, fetchLike } from "../slices/postSlice/asyncFunc";
 import { postStatusSelector } from "../slices/postSlice/postSlice";
 import { checkAuth, userSelector } from "../slices/authSlice/authSlice";
 import { IUser } from "../slices/authSlice/interfaces";
 
 export const Post = ({ data }: { data: IPost }) => {
   const [post, setPost] = useState(data);
-  const [like, setLike] = useState(
-    useAppSelector(postStatusSelector) === "Лайк поставлен."
+  const isAuth = useAppSelector(checkAuth);
+  const user = useAppSelector(userSelector);
+   const [like, setLike] = useState(
+    post.likes.some((e) => e === user?._id)
   );
 
   const [disLike, setDislike] = useState(
-    useAppSelector(postStatusSelector) === "Дизлайк поставлен."
+    post.dislikes.some((e) => e === user?._id)
   );
-  const isAuth = useAppSelector(checkAuth);
-  const user = useAppSelector(userSelector);
   const ref1 = createRef() as MutableRefObject<HTMLDivElement>;
   const ref2 = createRef() as MutableRefObject<HTMLDivElement>;
   const ref3 = createRef() as MutableRefObject<HTMLDivElement>;
@@ -39,7 +38,6 @@ export const Post = ({ data }: { data: IPost }) => {
   const textContainerRef = createRef() as MutableRefObject<HTMLDivElement>;
   const cleanText = DOMPurify.sanitize(data.text);
   const dispatch = useAppDispatch();
-  const status = useAppSelector(postStatusSelector);
 
   useEffect(() => {
     textContainerRef.current.innerHTML = cleanText;
@@ -48,42 +46,58 @@ export const Post = ({ data }: { data: IPost }) => {
   useEffect(() => {
     setLike(post.likes.some((e) => e === user?._id));
     setDislike(post.dislikes.some((e) => e === user?._id));
-    if (status) {
-      toast.info(status, { theme: "colored" });
-    }
   }, [post]);
 
-  const fetchPost = async (id: string) => {
-    const response = await instAxios.get(`/posts/${id}`);
-    if (response.status !== 200) {
-      throw new Error(response.statusText);
+  const fetchLike = async (postId: string, userId: string, param: string) => {
+    try {
+      const response = await instAxios.get(
+        `/posts/${postId}/${userId}/${param}`
+      );
+      if (response.status !== 200) {
+        throw new Error(response.statusText);
+      }
+      const result = response.data as { _post: IPost; message: string };
+      setPost(result._post);
+      return result;
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message, { theme: "colored" });
     }
-    setPost(response.data);
   };
 
   const likesHandler = async () => {
-    if (!isAuth) {
-      return toast.error(
-        "Это действие доступно только для авторизованных пользователей.",
-        {theme: 'colored'}
-      );
-    }
-    if (user) {
-      await dispatch(fetchLike({ postId: post._id, userId: user._id }));
-      fetchPost(post._id);
+    try {
+      if (!isAuth) {
+        return toast.error(
+          "Это действие доступно только для авторизованных пользователей.",
+          { theme: "colored" }
+        );
+      }
+      if (user) {
+        const response = await fetchLike(post._id, user._id, "likes");
+        toast.info(response?.message, { theme: "colored" });
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message, { theme: "colored" });
     }
   };
 
   const dislikesHandler = async () => {
-    if (!isAuth) {
-      return toast.error(
-        "Это действие доступно только для авторизованных пользователей.",
-        {theme: 'colored'}
-      );
-    }
-    if (user) {
-      await dispatch(fetchDislike({ postId: post._id, userId: user?._id }));
-      fetchPost(post._id);
+    try {
+      if (!isAuth) {
+        return toast.error(
+          "Это действие доступно только для авторизованных пользователей.",
+          { theme: "colored" }
+        );
+      }
+      if (user) {
+        const response = await fetchLike(post._id, user._id, "dislikes");
+        toast.info(response?.message, { theme: "colored" });
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message);
     }
   };
 

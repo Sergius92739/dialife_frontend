@@ -1,4 +1,10 @@
-import React, { useState, createRef, MutableRefObject, useEffect } from "react";
+import React, {
+  useState,
+  createRef,
+  MutableRefObject,
+  useEffect,
+  useCallback,
+} from "react";
 import no_avatar from "../../img/no_avatar.jpg";
 import { Button } from "./Button";
 import {
@@ -20,49 +26,29 @@ import { postStatusSelector } from "../slices/postSlice/postSlice";
 import { checkAuth, userSelector } from "../slices/authSlice/authSlice";
 import { toast } from "react-toastify";
 import { instAxios } from "../utils/axios";
-import { fetchDislike, fetchLike } from "../slices/postSlice/asyncFunc";
 
 export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
   const [post, setPost] = useState(data);
-  const [like, setLike] = useState(
-    useAppSelector(postStatusSelector) === "Лайк поставлен."
-  );
-
-  const [disLike, setDislike] = useState(
-    useAppSelector(postStatusSelector) === "Дизлайк поставлен."
-  );
   const isAuth = useAppSelector(checkAuth);
   const user = useAppSelector(userSelector);
+  const [like, setLike] = useState(
+    post.likes.some((e) => e === user?._id)
+  );
+  const [disLike, setDislike] = useState(
+    post.dislikes.some((e) => e === user?._id)
+  );
   const [readMore, setReadMore] = useState(true);
   const ref1 = createRef() as MutableRefObject<HTMLDivElement>;
   const ref2 = createRef() as MutableRefObject<HTMLDivElement>;
   const ref3 = createRef() as MutableRefObject<HTMLDivElement>;
   const ref4 = createRef() as MutableRefObject<HTMLDivElement>;
   const textContainerRef = createRef() as MutableRefObject<HTMLDivElement>;
-  const dispatch = useAppDispatch();
-  const status = useAppSelector(postStatusSelector);
-  const {
-    _id,
-    username,
-    title,
-    text,
-    imgUrl,
-    views,
-    createdAt,
-    comments,
-    likes,
-    dislikes,
-    avatar,
-  } = post;
-  const cleanText = DOMPurify.sanitize(text);
+  const cleanText = DOMPurify.sanitize(post.text);
 
   useEffect(() => {
     setLike(post.likes.some((e) => e === user?._id));
     setDislike(post.dislikes.some((e) => e === user?._id));
-    if (status) {
-      toast.info(status, { theme: "colored" });
-    }
-  }, [post.likes, post.dislikes]);
+  }, [post]);
 
   useEffect(() => {
     if (cleanText) {
@@ -70,37 +56,56 @@ export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
     }
   }, []);
 
-  const fetchPost = async (id: string) => {
-    const response = await instAxios.get(`/posts/${id}`);
-    if (response.status !== 200) {
-      throw new Error(response.statusText);
+  const fetchLike = async (postId: string, userId: string, param: string) => {
+    try {
+      const response = await instAxios.get(
+        `/posts/${postId}/${userId}/${param}`
+      );
+      if (response.status !== 200) {
+        throw new Error(response.statusText);
+      }
+      const result = response.data as { _post: IPost; message: string };
+      setPost(result._post);
+      return result;
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message, { theme: "colored" });
     }
-    setPost(response.data);
   };
 
   const likesHandler = async () => {
-    if (!isAuth) {
-      return toast.error(
-        "Это действие доступно только для авторизованных пользователей.",
-        { theme: "colored" }
-      );
-    }
-    if (user) {
-      await dispatch(fetchLike({ postId: post._id, userId: user._id }));
-      fetchPost(post._id);
+    try {
+      if (!isAuth) {
+        return toast.error(
+          "Это действие доступно только для авторизованных пользователей.",
+          { theme: "colored" }
+        );
+      }
+      if (user) {
+        const response = await fetchLike(post._id, user._id, "likes");
+        toast.info(response?.message, { theme: "colored" });
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message, { theme: "colored" });
     }
   };
 
   const dislikesHandler = async () => {
-    if (!isAuth) {
-      return toast.error(
-        "Это действие доступно только для авторизованных пользователей.",
-        { theme: "colored" }
-      );
-    }
-    if (user) {
-      await dispatch(fetchDislike({ postId: post._id, userId: user?._id }));
-      fetchPost(post._id);
+    try {
+      if (!isAuth) {
+        return toast.error(
+          "Это действие доступно только для авторизованных пользователей.",
+          { theme: "colored" }
+        );
+      }
+      if (user) {
+        const response = await fetchLike(post._id, user._id, "dislikes");
+        toast.info(response?.message, { theme: "colored" });
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message);
     }
   };
 
@@ -156,33 +161,33 @@ export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
         <div
           className="w-12 h-12 rounded-full"
           style={{
-            backgroundImage: avatar
-              ? `url(${process.env.REACT_APP_SERVER_URL}/${avatar})`
+            backgroundImage: post.avatar
+              ? `url(${process.env.REACT_APP_SERVER_URL}/${post.avatar})`
               : `url(${no_avatar})`,
             backgroundPosition: "center",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
           }}
         ></div>
-        <div className="text-lg font-medium">{username}</div>
+        <div className="text-lg font-medium">{post.username}</div>
         <div className=" opacity-70">
-          <Moment fromNow>{createdAt}</Moment>
+          <Moment fromNow>{post.createdAt}</Moment>
         </div>
       </div>
-      <h3 id={_id} className="text-3xl font-bold mt-3">
+      <h3 id={post._id} className="text-3xl font-bold mt-3">
         <Link
           className="hover:text-[#58A9A5] text-inherit"
           to={`${Paths.POSTS}/${post._id}`}
         >
-          {title}
+          {post.title}
         </Link>
       </h3>
-      {imgUrl && (
+      {post.imgUrl && (
         <div className="py-3">
           <img
             className="object-cover w-full"
-            src={`${process.env.REACT_APP_SERVER_URL}/${imgUrl}`}
-            alt={title}
+            src={`${process.env.REACT_APP_SERVER_URL}/${post.imgUrl}`}
+            alt={post.title}
           />
         </div>
       )}
@@ -209,7 +214,7 @@ export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
               onMouseOut={() => ref1.current.classList.add("hidden")}
             >
               <AiOutlineEye />
-              <span className="text-xl text-blue-500">{views}</span>
+              <span className="text-xl text-blue-500">{post.views}</span>
               <div
                 ref={ref1}
                 className="px-4 py-2 w-32 text-center bg-black text-white text-sm absolute top-10 -right-9 rounded hidden"
@@ -224,7 +229,9 @@ export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
               onMouseOut={() => ref2.current.classList.add("hidden")}
             >
               {like ? <AiFillLike /> : <AiOutlineLike />}
-              <span className="text-xl text-green-500">{likes.length}</span>
+              <span className="text-xl text-green-500">
+                {post.likes.length}
+              </span>
               <div
                 ref={ref2}
                 className="px-4 py-2 w-32 text-center bg-black text-white text-sm absolute top-10 -right-9 rounded hidden"
@@ -239,7 +246,9 @@ export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
               onMouseOut={() => ref3.current.classList.add("hidden")}
             >
               {disLike ? <AiFillDislike /> : <AiOutlineDislike />}
-              <span className="text-xl text-red-500">{dislikes.length}</span>
+              <span className="text-xl text-red-500">
+                {post.dislikes.length}
+              </span>
               <div
                 ref={ref3}
                 className="px-4 py-2 w-32 text-center bg-black text-white text-sm absolute top-10 -right-9 rounded hidden"
@@ -254,7 +263,9 @@ export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
             >
               <Link className="flex gap-2" to={`${Paths.POSTS}/${post._id}`}>
                 <AiOutlineComment />
-                <span className="text-xl text-blue-500">{comments.length}</span>
+                <span className="text-xl text-blue-500">
+                  {post.comments.length}
+                </span>
               </Link>
               <div
                 ref={ref4}
