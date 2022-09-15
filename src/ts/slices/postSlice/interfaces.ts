@@ -6,6 +6,7 @@ export interface IPostState {
   isLoading: boolean,
   error: Error | null,
   status: string | null,
+  post: IPost | null,
 }
 
 export interface IPost {
@@ -16,9 +17,9 @@ export interface IPost {
   text: string,
   imgUrl: string,
   views: number,
-  like: number,
-  dislike: number,
-  author: IUser,
+  likes: string[],
+  dislikes: string[],
+  author: string,
   comments: [],
   createdAt: string,
   updatedAt: string,

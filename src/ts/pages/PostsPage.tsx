@@ -23,7 +23,7 @@ export const PostsPage = (): JSX.Element => {
       <div ref={refPostsContainer} className="flex flex-col gap-4 basis-3/4">
         {
           posts.length
-            ? posts.map((el: IPost) => <PostItem key={el._id} post={el} />)
+            ? posts.map((el: IPost) => <PostItem key={el._id} data={el} />)
             : <div className="text-lg text-center p-4">
               Здесь пока ничего нет.
               <Link className='text-lg text-indigo-600' to={Paths.NEW_POST}> Добавьте пост</Link>
@@ -39,7 +39,7 @@ export const PostsPage = (): JSX.Element => {
                 <h2 className='main_title text-xl text-center uppercase font-bold'>Популярные посты</h2>
                 <div className="mt-5">
                   {
-                    popularPosts.map((el) => <PopularPostItem key={el._id} />)
+                    popularPosts.map((el) => <PopularPostItem post={el} key={el._id} />)
                   }
                 </div>
               </div>

@@ -41,7 +41,7 @@ export const AddPostPage = (): JSX.Element => {
       data.append('image', image as Blob)
       dispatch(createPost(data));
       resetForm();
-      navigate(Paths.POSTS);
+      navigate(Paths.HOME);
     } catch (error: any) {
       toast.error(error.message, { theme: 'colored' })
     }

@@ -2,39 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Poppins';
-  src: url('./fonts/Poppins-Regular.eot');
-  src: local('☺'), url('./fonts/Poppins-Regular.woff') format('woff'), url('./fonts/Poppins-Regular.ttf') format('truetype'), url('./fonts/Poppins-Regular.svg') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
 
-@font-face {
-  font-family: 'Poppins';
-  src: url('./fonts/Poppins-Medium.eot');
-  src: local('☺'), url('./fonts/Poppins-Medium.woff') format('woff'), url('./fonts/Poppins-Medium.ttf') format('truetype'), url('./fonts/Poppins-Medium.svg') format('svg');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Poppins';
-  src: url('./fonts/Poppins-Bold.eot');
-  src: local('☺'), url('./fonts/Poppins-Bold.woff') format('woff'), url('./fonts/Poppins-Bold.ttf') format('truetype'), url('./fonts/Poppins-Bold.svg') format('svg');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Poppins';
-  src: url('./fonts/Poppins-Black.eot');
-  src: local('☺'), url('./fonts/Poppins-Black.woff') format('woff'), url('./fonts/Poppins-Black.ttf') format('truetype'), url('./fonts/Poppins-Black.svg') format('svg');
-  font-weight: 900;
-  font-style: normal;
-}
 
 @Layer base {
+  @font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/Poppins-Regular.eot');
+    src: local('☺'), url('./fonts/Poppins-Regular.woff') format('woff'), url('./fonts/Poppins-Regular.ttf') format('truetype'), url('./fonts/Poppins-Regular.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/Poppins-Medium.eot');
+    src: local('☺'), url('./fonts/Poppins-Medium.woff') format('woff'), url('./fonts/Poppins-Medium.ttf') format('truetype'), url('./fonts/Poppins-Medium.svg') format('svg');
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/Poppins-Bold.eot');
+    src: local('☺'), url('./fonts/Poppins-Bold.woff') format('woff'), url('./fonts/Poppins-Bold.ttf') format('truetype'), url('./fonts/Poppins-Bold.svg') format('svg');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/Poppins-Black.eot');
+    src: local('☺'), url('./fonts/Poppins-Black.woff') format('woff'), url('./fonts/Poppins-Black.ttf') format('truetype'), url('./fonts/Poppins-Black.svg') format('svg');
+    font-weight: 900;
+    font-style: normal;
+  }
+
   body {
     font-family: 'Poppins', sans-serif;
     background-color: #ffffff;
@@ -81,10 +83,15 @@
   height: 203px;
 }
 
+/* .ql-snow.ql-toolbar button:hover, .ql-snow .ql-toolbar button:hover, .ql-snow.ql-toolbar button:focus, .ql-snow .ql-toolbar button:focus, .ql-snow.ql-toolbar button.ql-active, .ql-snow .ql-toolbar button.ql-active, .ql-snow.ql-toolbar .ql-picker-label:hover, .ql-snow .ql-toolbar .ql-picker-label:hover, .ql-snow.ql-toolbar .ql-picker-label.ql-active, .ql-snow .ql-toolbar .ql-picker-label.ql-active, .ql-snow.ql-toolbar .ql-picker-item:hover, .ql-snow .ql-toolbar .ql-picker-item:hover, .ql-snow.ql-toolbar .ql-picker-item.ql-selected, .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
+  color: #06c;
+  border: 1px solid red;
+} */
+
 .post p a {
   color: blue;
   text-decoration: underline;
-  
+
 }
 
 .post ul {
@@ -94,7 +101,7 @@
 }
 
 .post ul li {
-  padding: .3em 0 .3em 0; 
+  padding: .3em 0 .3em 0;
 }
 
 .post ol {

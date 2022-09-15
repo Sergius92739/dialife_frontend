@@ -3,7 +3,7 @@ export enum Paths {
   REGISTER = '/dialife_frontend/register',
   LOGIN = '/dialife_frontend/login',
   POSTS = '/dialife_frontend/posts',
-  POST = '/dialife_frontend/post:id',
+  // POST = '/dialife_frontend/post',
   NEW_POST = '/dialife_frontend/add-post',
   ARTICLES = '/dialife_frontend/articles',
   EDIT_POST = '/dialife_frontend/edit-post:id',

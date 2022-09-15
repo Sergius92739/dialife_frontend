@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Layout } from "./ts/components/Layout";
 import { useAppDispatch } from "./ts/hooks/hooks";
@@ -13,17 +13,17 @@ import { NewsPage } from "./ts/pages/NewsPage";
 import { PostPage } from "./ts/pages/PostPage";
 import { PostsPage } from "./ts/pages/PostsPage";
 import { RegisterPage } from "./ts/pages/RegisterPage";
-import { Paths } from './ts/paths';
-import { getMe } from './ts/slices/authSlice/asyncFunc';
+import { Paths } from "./ts/paths";
+import { getMe } from "./ts/slices/authSlice/asyncFunc";
 
 function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (window.localStorage.getItem('token')) {
+    if (window.localStorage.getItem("token")) {
       dispatch(getMe());
     }
-  }, [dispatch])
+  }, [dispatch]);
 
   return (
     <>
@@ -34,7 +34,7 @@ function App() {
           <Route path={Paths.REGISTER} element={<RegisterPage />} />
           <Route path={Paths.ADMIN} element={<AdminPage />} />
           <Route path={Paths.POSTS} element={<PostsPage />} />
-          <Route path={Paths.POST} element={<PostPage />} />
+          <Route path={`${Paths.POSTS}/:id`} element={<PostPage/>} />
           <Route path={Paths.NEW_POST} element={<AddPostPage />} />
           <Route path={Paths.EDIT_POST} element={<EditPostPage />} />
           <Route path={Paths.MY_POSTS} element={<MyPostsPage />} />
@@ -43,7 +43,6 @@ function App() {
         </Route>
       </Routes>
     </>
-
   );
 }
 
