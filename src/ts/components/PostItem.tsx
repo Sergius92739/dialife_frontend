@@ -22,20 +22,25 @@ import Moment from "react-moment";
 import "moment/locale/ru";
 import DOMPurify from "dompurify";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { postStatusSelector } from "../slices/postSlice/postSlice";
+import {
+  postLoadingSelector,
+  postStatusSelector,
+} from "../slices/postSlice/postSlice";
 import { checkAuth, userSelector } from "../slices/authSlice/authSlice";
 import { toast } from "react-toastify";
+import { fetchLike } from "../utils/fetchLike";
+import { likesHandler } from "../utils/likesHandler";
 import { instAxios } from "../utils/axios";
+import { getAllPosts } from "../slices/postSlice/asyncFunc";
+import { Loading } from "./Loading";
 
 export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
   const [post, setPost] = useState(data);
   const isAuth = useAppSelector(checkAuth);
   const user = useAppSelector(userSelector);
-  const [like, setLike] = useState(
-    post.likes.some((e) => e === user?._id)
-  );
+  const [like, setLike] = useState(post?.likes.some((e) => e === user?._id));
   const [disLike, setDislike] = useState(
-    post.dislikes.some((e) => e === user?._id)
+    post?.dislikes.some((e) => e === user?._id)
   );
   const [readMore, setReadMore] = useState(true);
   const ref1 = createRef() as MutableRefObject<HTMLDivElement>;
@@ -43,7 +48,9 @@ export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
   const ref3 = createRef() as MutableRefObject<HTMLDivElement>;
   const ref4 = createRef() as MutableRefObject<HTMLDivElement>;
   const textContainerRef = createRef() as MutableRefObject<HTMLDivElement>;
-  const cleanText = DOMPurify.sanitize(post.text);
+  const cleanText = DOMPurify.sanitize(post?.text);
+  const dispatch = useAppDispatch();
+  // const loading = useAppSelector(postLoadingSelector);
 
   useEffect(() => {
     setLike(post.likes.some((e) => e === user?._id));
@@ -56,58 +63,7 @@ export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
     }
   }, []);
 
-  const fetchLike = async (postId: string, userId: string, param: string) => {
-    try {
-      const response = await instAxios.get(
-        `/posts/${postId}/${userId}/${param}`
-      );
-      if (response.status !== 200) {
-        throw new Error(response.statusText);
-      }
-      const result = response.data as { _post: IPost; message: string };
-      setPost(result._post);
-      return result;
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error.message, { theme: "colored" });
-    }
-  };
-
-  const likesHandler = async () => {
-    try {
-      if (!isAuth) {
-        return toast.error(
-          "Это действие доступно только для авторизованных пользователей.",
-          { theme: "colored" }
-        );
-      }
-      if (user) {
-        const response = await fetchLike(post._id, user._id, "likes");
-        toast.info(response?.message, { theme: "colored" });
-      }
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error.message, { theme: "colored" });
-    }
-  };
-
-  const dislikesHandler = async () => {
-    try {
-      if (!isAuth) {
-        return toast.error(
-          "Это действие доступно только для авторизованных пользователей.",
-          { theme: "colored" }
-        );
-      }
-      if (user) {
-        const response = await fetchLike(post._id, user._id, "dislikes");
-        toast.info(response?.message, { theme: "colored" });
-      }
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error.message);
-    }
-  };
+  const handleLikeBtn = likesHandler({ dispatch, setPost });
 
   const htmlString = () => {
     return `<p>
@@ -223,7 +179,14 @@ export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
               </div>
             </div>
             <button
-              onClick={likesHandler}
+              onClick={() =>
+                handleLikeBtn({
+                  userId: user?._id as string,
+                  postId: post._id,
+                  isAuth,
+                  param: "likes",
+                })
+              }
               className="flex gap-2 items-center relative text-[#798e98]"
               onMouseOver={() => ref2.current.classList.remove("hidden")}
               onMouseOut={() => ref2.current.classList.add("hidden")}
@@ -240,7 +203,14 @@ export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
               </div>
             </button>
             <button
-              onClick={dislikesHandler}
+              onClick={() =>
+                handleLikeBtn({
+                  userId: user?._id as string,
+                  postId: post._id,
+                  isAuth,
+                  param: "dislikes",
+                })
+              }
               className="flex gap-2 items-center relative text-[#798e98]"
               onMouseOver={() => ref3.current.classList.remove("hidden")}
               onMouseOut={() => ref3.current.classList.add("hidden")}

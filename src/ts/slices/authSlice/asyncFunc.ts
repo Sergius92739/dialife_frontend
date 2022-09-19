@@ -1,32 +1,32 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
-import { instAxios } from '../../utils/axios';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { instAxios } from "../../utils/axios";
 
 type TRegisterProps = {
-  username: string,
-  password: string,
-}
+  username: string;
+  password: string;
+};
 
 export const registerUser = createAsyncThunk(
-  'auth/registerUser',
+  "auth/registerUser",
   async (params: FormData) => {
-    const response = await instAxios.post('/auth/register', params);
+    const response = await instAxios.post("/auth/register", params);
 
     if (response.status !== 200) {
       throw new Error(response.statusText);
     }
 
     if (response.data.token) {
-      window.localStorage.setItem('token', response.data.token);
+      window.localStorage.setItem("token", response.data.token);
     }
 
     return response.data;
   }
-)
+);
 
 export const loginUser = createAsyncThunk(
-  'auth/loginUser',
+  "auth/loginUser",
   async ({ username, password }: TRegisterProps) => {
-    const response = await instAxios.post('/auth/login', {
+    const response = await instAxios.post("/auth/login", {
       username,
       password,
     });
@@ -36,22 +36,20 @@ export const loginUser = createAsyncThunk(
     }
 
     if (response.data.token) {
-      window.localStorage.setItem('token', response.data.token);
+      console.log("token: ", response.data.token);
+      window.localStorage.setItem("token", response.data.token);
     }
 
     return response.data;
   }
-)
+);
 
-export const getMe = createAsyncThunk(
-  'auth/getMe',
-  async () => {
-    const response = await instAxios.get('/auth/me');
+export const getMe = createAsyncThunk("auth/getMe", async () => {
+  const response = await instAxios.get("/auth/me");
 
-    if (response.status !== 200) {
-      throw new Error(response.statusText);
-    }
-
-    return response.data;
+  if (response.status !== 200) {
+    throw new Error(response.statusText);
   }
-)
+
+  return response.data;
+});
