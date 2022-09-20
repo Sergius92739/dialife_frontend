@@ -20,17 +20,17 @@ import {
   postErrorSelector,
   postStatusSelector,
 } from "../slices/postSlice/postSlice";
+import Popup from "../components/Popup";
+import MyPostsItem from "../components/MyPostsItem";
 
 export const MyPostsPage = (): JSX.Element => {
   const [posts, setPosts] = useState<IPost[] | undefined>(undefined);
   const [popup, setPopup] = useState(false);
   const [postId, setPostId] = useState("");
   const isAuth = useAppSelector(checkAuth);
-  const user = useAppSelector(userSelector);
   const status = useAppSelector(postStatusSelector);
   const error = useAppSelector(postErrorSelector);
   const navigate = useNavigate();
-  const popupRef = createRef() as MutableRefObject<HTMLDivElement>;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -125,53 +125,22 @@ export const MyPostsPage = (): JSX.Element => {
           {posts &&
             posts.map((post) => {
               return post ? (
-                <div key={nanoid()} className={"postWrapper mt-5 relative"}>
-                  {post.author === user?._id && (
-                    <div className={"flex gap-5 items-center p-4 bg-white"}>
-                      <Button
-                        text={"Редактировать"}
-                        type={"button"}
-                        onClick={handleEditBtn}
-                      />
-                      <Button
-                        successColor={false}
-                        text={"Удалить пост"}
-                        type={"button"}
-                        onClick={handleRemoveBtn}
-                      />
-                    </div>
-                  )}
-                  <Post key={nanoid()} data={post} />
-                </div>
+                <MyPostsItem
+                  key={nanoid()}
+                  editBtnHandler={handleEditBtn}
+                  removeBtnHandler={handleRemoveBtn}
+                  post={post}
+                />
               ) : null;
             })}
         </div>
       )}
-      <div className={`fixed inset-0 z-10 ${popup ? "" : "hidden"}`}>
-        <div
-          ref={popupRef}
-          className={`flex items-center justify-center min-h-screen`}
-        >
-          <div className={"p-5 bg-[#FEC62D] rounded"}>
-            <div className={"text-2xl text-center py-8 font-bold"}>
-              Вы уверены что хотите удалить пост?
-            </div>
-            <div className={"flex justify-between"}>
-              <Button
-                text={"Отменить"}
-                type={"button"}
-                onClick={handlePopupCancelBtn}
-              />
-              <Button
-                successColor={false}
-                text={"Удалить"}
-                type={"button"}
-                onClick={handlePopupRemoveBtn}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <Popup
+        text={"Вы уверены что хотите удалить пост?"}
+        state={popup}
+        btnCancelHandler={handlePopupCancelBtn}
+        btnActionHandler={handlePopupRemoveBtn}
+      />
     </>
   );
 };

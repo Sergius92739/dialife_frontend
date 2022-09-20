@@ -184,7 +184,6 @@ export const EditPostPage = (): JSX.Element => {
             </label>
             <div className="border-2 border-[#58A9A5] rounded-lg bg-white h-[250px]">
               <ReactQuill
-                // preserveWhitespace={true}
                 theme="snow"
                 value={text}
                 onChange={setText}
@@ -193,20 +192,12 @@ export const EditPostPage = (): JSX.Element => {
             </div>
           </div>
           <div className="mt-3 flex justify-between">
-            <button
-              type="submit"
-              className="px-12 py-2.5 bg-[#58A9A5] text-white rounded-lg text-xl"
-              onClick={handleSubmit}
-            >
-              Сохранить
-            </button>
-            <button
-              type="button"
-              onClick={resetForm}
-              className="px-12 py-2.5 bg-[#fc5c65] text-white rounded-lg text-xl"
-            >
-              Отменить
-            </button>
+            <Button text={"Сохранить"} type={"submit"} onClick={handleSubmit} />
+            <Button
+              text={"К моим постам"}
+              type={"button"}
+              onClick={() => navigate(Paths.MY_POSTS)}
+            />
           </div>
         </form>
       ) : (
