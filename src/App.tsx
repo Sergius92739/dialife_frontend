@@ -34,9 +34,12 @@ function App() {
           <Route path={Paths.REGISTER} element={<RegisterPage />} />
           <Route path={Paths.ADMIN} element={<AdminPage />} />
           <Route path={Paths.POSTS} element={<PostsPage />} />
-          <Route path={`${Paths.POSTS}/:id`} element={<PostPage/>} />
+          <Route path={`${Paths.POSTS}/:id`} element={<PostPage />} />
           <Route path={Paths.NEW_POST} element={<AddPostPage />} />
-          <Route path={Paths.EDIT_POST} element={<EditPostPage />} />
+          <Route
+            path={`${Paths.POSTS}/edit-post/:id`}
+            element={<EditPostPage />}
+          />
           <Route path={Paths.MY_POSTS} element={<MyPostsPage />} />
           <Route path={Paths.ARTICLES} element={<ArticlesPage />} />
           <Route path="*" element={<Error404Page />} />

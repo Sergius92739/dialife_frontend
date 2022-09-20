@@ -70,6 +70,19 @@ export const MyPostsPage = (): JSX.Element => {
     }
   };
 
+  const handleEditBtn = (e: MouseEvent<HTMLButtonElement>) => {
+    let id;
+    const wrapper = e.currentTarget.closest(".postWrapper");
+    if (wrapper) {
+      const article = wrapper.querySelector("article");
+      if (article) {
+        id = article.id;
+        setPostId(id);
+      }
+    }
+    navigate(`${Paths.POSTS}/edit-post/${id}`);
+  };
+
   const handlePopupCancelBtn = () => {
     setPopup(false);
     setDisabledBtn(false);
@@ -122,7 +135,7 @@ export const MyPostsPage = (): JSX.Element => {
                         disabled={disabledBtn}
                         text={"Редактировать"}
                         type={"button"}
-                        onClick={() => {}}
+                        onClick={handleEditBtn}
                       />
                       <Button
                         disabled={disabledBtn}

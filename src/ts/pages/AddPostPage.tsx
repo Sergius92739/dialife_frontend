@@ -30,8 +30,6 @@ export const AddPostPage = (): JSX.Element => {
   const inputFileEl = createRef() as MutableRefObject<HTMLInputElement>;
   const user = useAppSelector(userSelector);
 
-  useEffect(() => {}, [postError, postStatus]);
-
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       setImage(e.target.files[0]);

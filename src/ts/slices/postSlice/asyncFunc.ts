@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { instAxios } from "../../utils/axios";
+import { IPost } from "./interfaces";
 
 export { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -36,5 +37,16 @@ export const removePost = createAsyncThunk(
     }
 
     return response.data as { message: string; postId: string };
+  }
+);
+
+export const updatePost = createAsyncThunk(
+  "post/updatePost",
+  async ({ data, id }: { data: FormData; id: string }) => {
+    const response = await instAxios.put(`posts/${id}`, data);
+    if (response.status !== 200) {
+      throw new Error(response.statusText);
+    }
+    return response.data as { post: IPost; message: string };
   }
 );
