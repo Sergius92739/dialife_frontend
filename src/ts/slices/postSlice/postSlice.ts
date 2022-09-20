@@ -1,9 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TRootState } from "../../store";
-import {
-  createPost,
-  getAllPosts
-} from "./asyncFunc";
+import { createPost, getAllPosts, removePost } from "./asyncFunc";
 import { IPost, IPostState } from "./interfaces";
 
 const initialState: IPostState = {
@@ -12,7 +9,6 @@ const initialState: IPostState = {
   isLoading: false,
   status: null,
   error: null,
-  post: null,
 };
 
 export const postSlice = createSlice({
@@ -22,9 +18,7 @@ export const postSlice = createSlice({
     resetPostStatus: (state: IPostState) => {
       state.status = null;
     },
-    updatePosts: (state: IPostState) => {
-      
-    }
+    updatePosts: (state: IPostState) => {},
   },
   extraReducers: {
     // Create post
@@ -69,62 +63,27 @@ export const postSlice = createSlice({
       state.error = action.error;
       state.status = action.error.message;
     },
-    // Get post by id
-    /* [getPostById.pending.type]: (state: IPostState) => {
+    // Remove post
+    [removePost.pending.type]: (state: IPostState) => {
       state.isLoading = true;
       state.error = null;
       state.status = null;
     },
-    [getPostById.fulfilled.type]: (
+    [removePost.fulfilled.type]: (
       state: IPostState,
-      action: PayloadAction<IPost>
+      action: PayloadAction<{ postId: string; message: string }>
     ) => {
-      state.post = action.payload;
-      state.isLoading = false;
-    },
-    [getPostById.rejected.type]: (state: IPostState, action: any) => {
-      state.error = action.error;
-      state.status = action.error.message;
-      state.isLoading = false;
-    }, */
-    // Like handler
-    /* [fetchLike.pending.type]: (state: IPostState) => {
-      state.isLoading = true;
-      state.error = null;
-      state.status = null;
-    },
-    [fetchLike.fulfilled.type]: (
-      state: IPostState,
-      action: PayloadAction<{ _post: IPost; message: string }>
-    ) => {
-      state.post = action.payload._post;
       state.isLoading = false;
       state.status = action.payload.message;
+      state.posts = state.posts.filter(
+        (post) => post._id !== action.payload.postId
+      );
     },
-    [fetchLike.rejected.type]: (state: IPostState, action: any) => {
+    [removePost.rejected.type]: (state: IPostState, action: any) => {
       state.error = action.error;
+      state.isLoading = false;
       state.status = action.error.message;
-      state.isLoading = false;
-    }, */
-    // Dislike handler
-    /* [fetchDislike.pending.type]: (state: IPostState) => {
-      state.isLoading = true;
-      state.error = null;
-      state.status = null;
     },
-    [fetchDislike.fulfilled.type]: (
-      state: IPostState,
-      action: PayloadAction<{ _post: IPost; message: string }>
-    ) => {
-      state.post = action.payload._post;
-      state.isLoading = false;
-      state.status = action.payload.message;
-    },
-    [fetchDislike.rejected.type]: (state: IPostState, action: any) => {
-      state.error = action.error;
-      state.status = action.error.message;
-      state.isLoading = false;
-    }, */
   },
 });
 
@@ -135,5 +94,4 @@ export const popularPostsSelector = (state: TRootState) =>
 export const postLoadingSelector = (state: TRootState) => state.post.isLoading;
 export const postErrorSelector = (state: TRootState) => state.post.error;
 export const postsSelector = (state: TRootState) => state.post.posts;
-export const postSelector = (state: TRootState) => state.post.post;
 export const { resetPostStatus } = postSlice.actions;

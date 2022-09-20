@@ -72,7 +72,8 @@ export const Layout = (): JSX.Element => {
 
     if (
       postStatus === "Пост с изображением успешно сохранен." ||
-      postStatus === "Пост без изображения успешно сохранен."
+      postStatus === "Пост без изображения успешно сохранен." ||
+      postStatus === "Пост был удалён."
     ) {
       toast.success(postStatus, { theme: "colored" });
       dispatch(resetPostStatus());

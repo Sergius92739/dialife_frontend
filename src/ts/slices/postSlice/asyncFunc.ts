@@ -25,3 +25,16 @@ export const getAllPosts = createAsyncThunk("post/getAllPosts", async () => {
 
   return response.data;
 });
+
+export const removePost = createAsyncThunk(
+  "post/removePost",
+  async (id: string) => {
+    const response = await instAxios.delete(`posts/${id}`);
+
+    if (response.status !== 200) {
+      throw new Error(response.statusText);
+    }
+
+    return response.data as { message: string; postId: string };
+  }
+);
