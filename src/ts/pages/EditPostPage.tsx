@@ -25,9 +25,10 @@ import { IPost } from "../slices/postSlice/interfaces";
 import { data } from "autoprefixer";
 import { string } from "prop-types";
 import { Button } from "../components/Button";
+import Popup from "../components/Popup";
 
 export const EditPostPage = (): JSX.Element => {
-  const [post, setPost] = useState<IPost[]>([]);
+  const [popupVisible, setPopupVisible] = useState(false);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [oldImage, setOldImage] = useState("");
@@ -43,7 +44,6 @@ export const EditPostPage = (): JSX.Element => {
   useEffect(() => {
     fetchPost(id as string)
       .then((data) => {
-        setPost([data]);
         setOldImage(data.imgUrl);
         setTitle(data.title);
         setText(data.text);
@@ -192,7 +192,11 @@ export const EditPostPage = (): JSX.Element => {
             </div>
           </div>
           <div className="mt-3 flex justify-between">
-            <Button text={"Сохранить"} type={"submit"} onClick={handleSubmit} />
+            <Button
+              text={"Сохранить"}
+              type={"submit"}
+              onClick={() => setPopupVisible(true)}
+            />
             <Button
               text={"К моим постам"}
               type={"button"}
@@ -200,16 +204,14 @@ export const EditPostPage = (): JSX.Element => {
             />
           </div>
         </form>
-      ) : (
-        <div className="text-lg p-4 text-center">
-          Только зарегестрированные пользователь могут добавлять посты.
-          <Link className="text-indigo-600" to={Paths.LOGIN}>
-            {" "}
-            Войдите или зарегстрируйтесь
-          </Link>
-          , пожалуйста.
-        </div>
-      )}
+      ) : null}
+      <Popup
+        text={"Сохранить изменения и опубликовать пост?"}
+        state={popupVisible}
+        btnCancelHandler={() => setPopupVisible(false)}
+        btnActionHandler={handleSubmit}
+        btnActionText={"Опубликовать"}
+      />
     </>
   );
 };

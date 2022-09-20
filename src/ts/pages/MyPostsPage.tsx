@@ -1,19 +1,12 @@
-import React, {
-  createRef,
-  MutableRefObject,
-  MouseEvent,
-  useEffect,
-  useState,
-} from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import { IPost } from "../slices/postSlice/interfaces";
 import { instAxios } from "../utils/axios";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { checkAuth, userSelector } from "../slices/authSlice/authSlice";
+import { checkAuth } from "../slices/authSlice/authSlice";
 import { nanoid } from "nanoid";
 import { Paths } from "../paths";
 import { Link, useNavigate } from "react-router-dom";
-import { Post } from "../components/Post";
 import { Button } from "../components/Button";
 import { removePost } from "../slices/postSlice/asyncFunc";
 import {

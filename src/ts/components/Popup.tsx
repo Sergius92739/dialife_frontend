@@ -8,6 +8,8 @@ type TPopupProps = {
   btnActionHandler: MouseEventHandler<HTMLButtonElement>;
   btnCancelText?: string;
   btnActionText?: string;
+  btnActionSuccessColor?: boolean;
+  btnCancelSuccessColor?: boolean;
 };
 
 const Popup = ({
@@ -17,6 +19,8 @@ const Popup = ({
   btnActionHandler,
   btnActionText = "Удалить",
   btnCancelText = "Отменить",
+  btnActionSuccessColor = true,
+  btnCancelSuccessColor = true,
 }: TPopupProps) => {
   return (
     <div className={`fixed inset-0 z-10 ${state ? "" : "hidden"}`}>
@@ -25,12 +29,13 @@ const Popup = ({
           <div className={"text-2xl text-center py-8 font-bold"}>{text}</div>
           <div className={"flex justify-between"}>
             <Button
+              successColor={btnCancelSuccessColor}
               text={btnCancelText}
               type={"button"}
               onClick={btnCancelHandler}
             />
             <Button
-              successColor={false}
+              successColor={btnActionSuccessColor}
               text={btnActionText}
               type={"button"}
               onClick={btnActionHandler}

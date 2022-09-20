@@ -53,6 +53,7 @@
   },
   "homepage": "https://sergius92739.github.io/dialife_frontend",
   "devDependencies": {
+    "@tailwindcss/line-clamp": "^0.4.2",
     "@types/dompurify": "^2.3.4",
     "autoprefixer": "^10.4.8",
     "postcss": "^8.4.16",

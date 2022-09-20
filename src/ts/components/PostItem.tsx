@@ -50,7 +50,6 @@ export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
   const textContainerRef = createRef() as MutableRefObject<HTMLDivElement>;
   const cleanText = DOMPurify.sanitize(post?.text);
   const dispatch = useAppDispatch();
-  // const loading = useAppSelector(postLoadingSelector);
 
   useEffect(() => {
     setLike(post.likes.some((e) => e === user?._id));
@@ -59,55 +58,27 @@ export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
 
   useEffect(() => {
     if (cleanText) {
-      textContainerRef.current.innerHTML = htmlString();
+      textContainerRef.current.innerHTML = cleanText;
     }
   }, []);
 
   const handleLikeBtn = likesHandler({ dispatch, setPost });
 
-  const htmlString = () => {
-    return `<p>
-             ${content(cleanText).slice(0, 100)}
-             <span class="opacity-60">${content(cleanText).slice(
-               100,
-               200
-             )}</span>
-             <span class="opacity-50">${content(cleanText).slice(
-               200,
-               300
-             )}</span>
-             <span class="opacity-40">${content(cleanText).slice(
-               300,
-               400
-             )}</span>
-             <span class="opacity-30">${content(cleanText).slice(
-               400,
-               500
-             )}</span>
-             <span class="opacity-20">${content(cleanText).slice(
-               500,
-               600
-             )}</span>
-             <span class="opacity-10">${content(cleanText).slice(
-               600,
-               700
-             )}</span>
-           </p>`;
-  };
-
-  const content = (str: string) => {
-    const regex = /<.*?>/g;
-    return str.replace(regex, "");
+  /* fetch post and update views */
+  const fetchPost = async (id: string) => {
+    const response = await instAxios.get(`/posts/${id}/updateViews`);
+    if (response.status !== 200) {
+      throw new Error(response.statusText);
+    }
+    return response.data as IPost;
   };
 
   const handleReadMoreClick = () => {
     if (readMore) {
-      textContainerRef.current.innerHTML = "";
-      textContainerRef.current.insertAdjacentHTML("beforeend", cleanText);
-      setReadMore(!readMore);
+      setReadMore(false);
+      fetchPost(post._id).then((data) => setPost(data));
     } else {
-      textContainerRef.current.innerHTML = htmlString();
-      setReadMore(!readMore);
+      setReadMore(true);
     }
   };
 
@@ -147,7 +118,14 @@ export const PostItem = ({ data }: { data: IPost }): JSX.Element => {
           />
         </div>
       )}
-      {<div className="mt-3" ref={textContainerRef}></div>}
+      {
+        <div
+          className={`mt-3 ${readMore ? "line-clamp-3" : ""}`}
+          ref={textContainerRef}
+        >
+          {/*text container */}
+        </div>
+      }
       <div className="mt-5 flex items-center gap-20">
         <>
           {readMore ? (
