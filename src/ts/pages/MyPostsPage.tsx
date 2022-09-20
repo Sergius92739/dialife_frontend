@@ -24,7 +24,6 @@ import {
 export const MyPostsPage = (): JSX.Element => {
   const [posts, setPosts] = useState<IPost[] | undefined>(undefined);
   const [popup, setPopup] = useState(false);
-  const [disabledBtn, setDisabledBtn] = useState(false);
   const [postId, setPostId] = useState("");
   const isAuth = useAppSelector(checkAuth);
   const user = useAppSelector(userSelector);
@@ -58,7 +57,6 @@ export const MyPostsPage = (): JSX.Element => {
 
   const handleRemoveBtn = (e: MouseEvent<HTMLButtonElement>) => {
     setPopup(true);
-    setDisabledBtn(true);
     let id;
     const wrapper = e.currentTarget.closest(".postWrapper");
     if (wrapper) {
@@ -85,7 +83,6 @@ export const MyPostsPage = (): JSX.Element => {
 
   const handlePopupCancelBtn = () => {
     setPopup(false);
-    setDisabledBtn(false);
     setPostId("");
   };
 
@@ -132,13 +129,11 @@ export const MyPostsPage = (): JSX.Element => {
                   {post.author === user?._id && (
                     <div className={"flex gap-5 items-center p-4 bg-white"}>
                       <Button
-                        disabled={disabledBtn}
                         text={"Редактировать"}
                         type={"button"}
                         onClick={handleEditBtn}
                       />
                       <Button
-                        disabled={disabledBtn}
                         successColor={false}
                         text={"Удалить пост"}
                         type={"button"}
@@ -152,28 +147,28 @@ export const MyPostsPage = (): JSX.Element => {
             })}
         </div>
       )}
-      <div
-        ref={popupRef}
-        className={`flex items-center justify-center top-1/3 left-1/3 fixed ${
-          popup ? "" : "hidden"
-        }`}
-      >
-        <div className={"p-5 bg-[#FEC62D] rounded"}>
-          <div className={"text-2xl text-center py-8 font-bold"}>
-            Вы уверены что хотите удалить пост?
-          </div>
-          <div className={"flex justify-between"}>
-            <Button
-              text={"Отменить"}
-              type={"button"}
-              onClick={handlePopupCancelBtn}
-            />
-            <Button
-              successColor={false}
-              text={"Удалить"}
-              type={"button"}
-              onClick={handlePopupRemoveBtn}
-            />
+      <div className={`fixed inset-0 z-10 ${popup ? "" : "hidden"}`}>
+        <div
+          ref={popupRef}
+          className={`flex items-center justify-center min-h-screen`}
+        >
+          <div className={"p-5 bg-[#FEC62D] rounded"}>
+            <div className={"text-2xl text-center py-8 font-bold"}>
+              Вы уверены что хотите удалить пост?
+            </div>
+            <div className={"flex justify-between"}>
+              <Button
+                text={"Отменить"}
+                type={"button"}
+                onClick={handlePopupCancelBtn}
+              />
+              <Button
+                successColor={false}
+                text={"Удалить"}
+                type={"button"}
+                onClick={handlePopupRemoveBtn}
+              />
+            </div>
           </div>
         </div>
       </div>

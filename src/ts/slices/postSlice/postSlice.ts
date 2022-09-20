@@ -84,6 +84,7 @@ export const postSlice = createSlice({
       state.isLoading = false;
       state.status = action.error.message;
     },
+    // Edit post
     [updatePost.pending.type]: (state: IPostState) => {
       state.isLoading = true;
       state.error = null;

@@ -1,5 +1,3 @@
-import { IUser } from "../authSlice/interfaces";
-
 export interface IPostState {
   posts: IPost[];
   popularPosts: IPost[];
