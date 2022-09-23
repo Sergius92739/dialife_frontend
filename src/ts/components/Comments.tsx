@@ -3,7 +3,7 @@ import {Button} from "./Button";
 import {Comment} from "./Comment";
 import {useAppSelector} from "../hooks/hooks";
 import {toast} from "react-toastify";
-import {userSelector} from "../slices/authSlice/authSlice";
+import {checkAuth, userSelector} from "../slices/authSlice/authSlice";
 import {nanoid} from "nanoid";
 import {instAxios} from "../utils/axios";
 import {IComment} from "../slices/postSlice/interfaces";
@@ -11,9 +11,9 @@ import {IComment} from "../slices/postSlice/interfaces";
 export const Comments: React.FC<{ id: string }> = props => {
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState<IComment[] | undefined>(undefined);
-    const [loading, setLoading] = useState(false);
     const {id} = props;
     const user = useAppSelector(userSelector);
+    const isAuth = useAppSelector(checkAuth);
 
     useEffect(() => {
         getPostComments(id)
@@ -45,7 +45,6 @@ export const Comments: React.FC<{ id: string }> = props => {
             if (response.status !== 200) {
                 throw new Error(response.statusText);
             }
-            console.log(response.data)
             return response.data as { message: string }
         } catch (error: any) {
             console.error(error);
@@ -71,20 +70,26 @@ export const Comments: React.FC<{ id: string }> = props => {
 
     return (
         <div className={'p-4 bg-white flex flex-col gap-5'}>
-            <h3 className={'font-bold text-lg'}>Оставить комментарий</h3>
-            <form
-                onSubmit={(e) => e.preventDefault()}
-                className={'flex flex-col gap-3'}>
-                <textarea
-                    placeholder={'Введите текст'}
-                    className={'w-full border-2 p-2 outline-0 h-32 rounded resize-none'}
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                />
-                <div>
-                    <Button text={'Отправить'} type={'submit'} onClick={handleSubmit}/>
-                </div>
-            </form>
+            {
+                isAuth && (
+                    <>
+                        <h3 className={'font-bold text-lg'}>Оставить комментарий</h3>
+                        <form
+                            onSubmit={(e) => e.preventDefault()}
+                            className={'flex flex-col gap-3'}>
+                            <textarea
+                                placeholder={'Введите текст'}
+                                className={'w-full border-2 p-2 outline-0 h-32 rounded resize-none'}
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                            />
+                            <div>
+                                <Button text={'Отправить'} type={'submit'} onClick={handleSubmit}/>
+                            </div>
+                        </form>
+                    </>
+                )
+            }
             <div className={'flex flex-col gap-4'}>
                 <h3 className={'font-bold text-lg'}>Комментарии<span
                     className={'text-xl font-normal text-blue-500 ml-4'}>{comments?.length}</span></h3>

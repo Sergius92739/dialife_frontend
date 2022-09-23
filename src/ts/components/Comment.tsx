@@ -8,7 +8,7 @@ export const Comment: React.FC<{ item: IComment }> = props => {
     const {item} = props;
 
     return (
-        <div className={'flex flex-col gap-3 p-2'}>
+        <div className={'flex flex-col p-2'}>
             <div className="flex items-center gap-5">
                 <div
                     className="w-12 h-12 rounded-full"
@@ -28,11 +28,11 @@ export const Comment: React.FC<{ item: IComment }> = props => {
             </div>
             <div className={'ml-[68px]'}>
                 {item.comment}
-                <div>
 
-                </div>
             </div>
+            <div>
 
+            </div>
         </div>
     );
 };

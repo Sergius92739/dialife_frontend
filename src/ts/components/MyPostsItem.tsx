@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import { Button } from "./Button";
 import { Post } from "./Post";
 import { IPost } from "../slices/postSlice/interfaces";
+import {Comments} from "./Comments";
 
 export type TMyPostsItemProps = {
   editBtnHandler: MouseEventHandler<HTMLButtonElement>;
@@ -17,7 +18,7 @@ const MyPostsItem = ({
 }: TMyPostsItemProps) => {
   return (
     <div key={nanoid()} className={"postWrapper mt-5 relative"}>
-      <Post key={nanoid()} data={post} />
+
       <div className={"flex gap-5 items-center p-4 bg-white"}>
         <Button
           text={"Редактировать"}
@@ -31,7 +32,8 @@ const MyPostsItem = ({
           onClick={removeBtnHandler}
         />
       </div>
-
+      <Post key={nanoid()} data={post} />
+      <Comments id={post._id}/>
     </div>
   );
 };

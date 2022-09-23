@@ -42,11 +42,6 @@ export const EditPostPage = (): JSX.Element => {
   const inputFileEl = createRef() as MutableRefObject<HTMLInputElement>;
 
   useEffect(() => {
-    console.log({image, oldImage, title, text})
-  }, [image, oldImage]);
-
-
-  useEffect(() => {
     fetchPost(id as string)
       .then((data) => {
         setOldImage(data.imgUrl);
