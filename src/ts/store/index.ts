@@ -2,8 +2,6 @@ import { configureStore, Middleware } from '@reduxjs/toolkit';
 import { authReducer } from '../slices/authSlice/authSlice';
 import { postReducer } from '../slices/postSlice/postSlice';
 
-
-
 export const store = configureStore({
   reducer: {
     auth: authReducer,

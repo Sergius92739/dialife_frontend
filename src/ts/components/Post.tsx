@@ -37,6 +37,7 @@ export const Post = ({ data }: { data: IPost }) => {
   const cleanText = DOMPurify.sanitize(data.text);
   const dispatch = useAppDispatch();
   const { id } = useParams();
+  // console.log({id})
 
   useEffect(() => {
     textContainerRef.current.innerHTML = cleanText;
@@ -101,7 +102,7 @@ export const Post = ({ data }: { data: IPost }) => {
             <button
               onClick={() =>
                 handleLikeBtn({
-                  postId: post._id,
+                  postId: id as string,
                   userId: user?._id as string,
                   isAuth,
                   param: "likes",

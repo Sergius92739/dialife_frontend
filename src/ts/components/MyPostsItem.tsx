@@ -17,6 +17,7 @@ const MyPostsItem = ({
 }: TMyPostsItemProps) => {
   return (
     <div key={nanoid()} className={"postWrapper mt-5 relative"}>
+      <Post key={nanoid()} data={post} />
       <div className={"flex gap-5 items-center p-4 bg-white"}>
         <Button
           text={"Редактировать"}
@@ -30,7 +31,7 @@ const MyPostsItem = ({
           onClick={removeBtnHandler}
         />
       </div>
-      <Post key={nanoid()} data={post} />
+
     </div>
   );
 };

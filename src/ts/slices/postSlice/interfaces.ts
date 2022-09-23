@@ -22,3 +22,15 @@ export interface IPost {
   updatedAt: string;
   __v: number;
 }
+
+export interface IComment {
+  _id: string;
+  comment: string;
+  author: {
+    username: string;
+    avatar: string
+  };
+  createdAt: string;
+  updateAt: string;
+  __v: number;
+}
