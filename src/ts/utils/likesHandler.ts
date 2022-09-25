@@ -26,16 +26,17 @@ export const likesHandler = (options: TWrapperProps) => {
                 {theme: "colored"}
             );
         }
-        fetchLike(data.postId, data.userId, data.param)
-            .then((data) => {
-                options.setPost(data._post);
-                return data;
-            })
-            .then((data) => toast.info(data.message, {theme: "colored"}))
-            .then(() => options.dispatch(getAllPosts()))
-            .catch((error) => {
-                console.error(error);
-                toast.error(error.message, {theme: "colored"})
-            })
+        try {
+            fetchLike(data.postId, data.userId, data.param)
+                .then((data) => {
+                    options.setPost(data._post);
+                    return data;
+                })
+                .then((data) => toast.info(data.message, {theme: "colored"}))
+                .then(() => options.dispatch(getAllPosts()))
+        } catch (error: any) {
+            console.error(error);
+            toast.error(error.message, {theme: "colored"})
+        }
     }
 };

@@ -74,7 +74,7 @@ export const Post = ({data}: { data: IPost }) => {
                         />
                         <IconBtn
                             onClick={() => handleLikeBtn({
-                                postId: id as string,
+                                postId: post._id,
                                 userId: user?._id as string,
                                 isAuth,
                                 param: 'likes'
