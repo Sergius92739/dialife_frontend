@@ -23,9 +23,9 @@ const Popup = ({
   btnCancelSuccessColor = true,
 }: TPopupProps) => {
   return (
-    <div className={`fixed inset-0 z-10 ${state ? "" : "hidden"}`}>
-      <div className={`flex items-center justify-center min-h-screen`}>
-        <div className={"p-5 bg-[#FEC62D] rounded"}>
+    <div className={`popup ${state ? "open" : ""}`}>
+      <div className={`popup_body`}>
+        <div className={"popup_content"}>
           <div className={"text-2xl text-center py-8 font-bold"}>{text}</div>
           <div className={"flex justify-between"}>
             <Button

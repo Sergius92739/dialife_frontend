@@ -26,15 +26,6 @@ export const MyPostsPage = (): JSX.Element => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        fetchUserPosts()
-            .then((data) => setPosts(data))
-            .catch((error) => {
-                console.error(error);
-                toast.error(error.message, {theme: "colored"});
-            });
-    }, []);
-
     const fetchUserPosts = async () => {
         try {
             const response = await instAxios.get("/posts/user");
@@ -47,6 +38,17 @@ export const MyPostsPage = (): JSX.Element => {
             toast.error(error.message, {theme: "colored"});
         }
     };
+
+    useEffect(() => {
+        fetchUserPosts()
+            .then((data) => setPosts(data))
+            .catch((error) => {
+                console.error(error);
+                toast.error(error.message, {theme: "colored"});
+            });
+    }, []);
+
+
 
     const handleRemoveBtn = (e: MouseEvent<HTMLButtonElement>) => {
         let id;

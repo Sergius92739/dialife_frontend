@@ -12,6 +12,12 @@ type TProps = {
 export const IconBtn = (props: TProps): JSX.Element => {
     const {onClick, iconFill, iconOutline, toggle, text, count} = props;
     const ref = createRef() as MutableRefObject<HTMLDivElement>;
+    const textColors = new Map([
+        ['Просмотры', 'text-blue-500'],
+        ['Нравится', 'text-green-500'],
+        ['Не нравится', 'text-red-500'],
+        ['Комментарии', 'text-blue-500']
+    ])
 
     return (
         <button
@@ -21,7 +27,7 @@ export const IconBtn = (props: TProps): JSX.Element => {
             onMouseOut={() => ref.current.classList.add("hidden")}
         >
             {toggle ? iconFill : iconOutline}
-            <span className="text-xl text-green-500">
+            <span className={`text-xl ${textColors.get(text)}`}>
                 {count}
               </span>
             <div

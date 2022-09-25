@@ -25,10 +25,6 @@ export const PostsPage = (): JSX.Element => {
     React.createRef() as React.MutableRefObject<HTMLDivElement>;
 
   useEffect(() => {
-    // console.log(posts);
-  }, [posts]);
-
-  useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
 
