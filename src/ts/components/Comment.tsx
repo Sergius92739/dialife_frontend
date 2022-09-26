@@ -25,7 +25,6 @@ export const Comment = (props: TProps): JSX.Element => {
     const [form, setForm] = useState('hidden');
     const [comment, setComment] = useState('');
     const [loading, setLoading] = useState(false);
-    const {id} = useParams();
     const user = useAppSelector(userSelector);
     const isAuth = useAppSelector(checkAuth);
 
@@ -35,14 +34,14 @@ export const Comment = (props: TProps): JSX.Element => {
             setLoading(true)
             const commentData: TCreateCommentProps = {
                 userId: user?._id as string,
-                postId: id as string,
+                postId: item.postId,
                 type: 'answer',
                 comment,
                 commentId: item._id,
             }
             createComment(commentData)
                 .then((data) => toast.success(data?.message, {theme: "colored"}))
-                .then(() => getPostComments(id as string))
+                .then(() => getPostComments(item.postId))
                 .then((data) => setFunc(data))
                 .then(() => setComment(''))
                 .then(() => setLoading(false));

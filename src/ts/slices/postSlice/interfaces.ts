@@ -38,6 +38,7 @@ export interface IComment {
         comment: string
         userId: string;
     };
+    postId: string;
     type: string;
     createdAt: string;
     updateAt: string;

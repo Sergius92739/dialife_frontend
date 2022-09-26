@@ -24,7 +24,7 @@ export const Comments: React.FC<{ id: string }> = props => {
     useEffect(() => {
         getPostComments(id)
             .then((data) => setComments(data))
-    }, []);
+    }, [id]);
 
     const handleSubmit = () => {
         try {
@@ -88,13 +88,13 @@ export const Comments: React.FC<{ id: string }> = props => {
                         className={'text-xl font-normal text-blue-500 ml-4'}>{comments?.length}</span></h3>
                     <div className={'flex flex-col gap-3'}>
                         {
-                            comments && comments.map((el) =>
+                            (comments && comments.length) ? comments.map((el) =>
                                 <Comment
                                     key={nanoid()}
                                     item={el}
                                     setFunc={setComments}
                                 />
-                            )
+                            ) : null
                         }
                     </div>
                 </div>

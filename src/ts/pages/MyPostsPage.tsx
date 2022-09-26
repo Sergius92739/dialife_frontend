@@ -15,6 +15,7 @@ import {
 } from "../slices/postSlice/postSlice";
 import Popup from "../components/Popup";
 import MyPostsItem from "../components/MyPostsItem";
+import {fetchUserPosts} from "../utils/fetchUserPosts";
 
 export const MyPostsPage = (): JSX.Element => {
     const [posts, setPosts] = useState<IPost[] | undefined>(undefined);
@@ -31,19 +32,6 @@ export const MyPostsPage = (): JSX.Element => {
             navigate(Paths.HOME);
         }
     }, [isAuth]);
-
-    const fetchUserPosts = async () => {
-        try {
-            const response = await instAxios.get("/posts/user");
-            if (response.status !== 200) {
-                throw new Error(response.statusText);
-            }
-            return response.data as IPost[];
-        } catch (error: any) {
-            console.error(error);
-            toast.error(error.message, {theme: "colored"});
-        }
-    };
 
     useEffect(() => {
         fetchUserPosts()
