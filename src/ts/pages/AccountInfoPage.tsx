@@ -6,7 +6,7 @@ import Moment from "react-moment";
 import {fetchUserCountComments} from "../utils/fetchUserCountComments";
 import {fetchUserPostsCount} from "../utils/fetchUserPostsCount";
 
-export const AccountInfoPage = () => {
+export const AccountInfoPage = (): JSX.Element => {
     const user = useAppSelector(userSelector);
     const [commentsCount, setCommentsCount] = useState<number | undefined>(undefined);
     const [userPosts, setUserPosts] = useState<number | undefined>(undefined);

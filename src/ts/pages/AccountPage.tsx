@@ -3,7 +3,7 @@ import {Paths} from "../paths";
 import {useAppSelector} from "../hooks/hooks";
 import {checkAuth} from "../slices/authSlice/authSlice";
 
-export const AccountPage = () => {
+export const AccountPage = (): JSX.Element => {
     const isAuth = useAppSelector(checkAuth);
 
     return (
@@ -19,6 +19,11 @@ export const AccountPage = () => {
                         <NavLink className={'account_link relative'} to={Paths.MY_POSTS}>
                             <li className={'py-2 px-4 '}>
                                 Мои посты
+                            </li>
+                        </NavLink>
+                        <NavLink className={'account_link relative'} to={Paths.MY_COMMENTS}>
+                            <li className={'py-2 px-4 '}>
+                                Мои комментарии
                             </li>
                         </NavLink>
                         <NavLink className={'account_link relative'} to={Paths.NEW_POST}>

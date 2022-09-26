@@ -2,7 +2,7 @@ import React, {createRef, MouseEventHandler, MutableRefObject} from "react";
 
 type TProps = {
     onClick?: MouseEventHandler<HTMLButtonElement> | undefined,
-    text: string,
+    text?: string,
     iconFill?: JSX.Element | undefined,
     iconOutline: JSX.Element,
     toggle?: boolean | undefined,
@@ -10,7 +10,7 @@ type TProps = {
 }
 
 export const IconBtn = (props: TProps): JSX.Element => {
-    const {onClick, iconFill, iconOutline, toggle, text, count} = props;
+    const {onClick, iconFill, iconOutline, toggle, text = '', count} = props;
     const ref = createRef() as MutableRefObject<HTMLDivElement>;
     const textColors = new Map([
         ['Просмотры', 'text-blue-500'],
