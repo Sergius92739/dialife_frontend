@@ -17,8 +17,7 @@ const MyPostsItem = ({
   post,
 }: TMyPostsItemProps) => {
   return (
-    <div key={nanoid()} className={"postWrapper mt-5 relative"}>
-
+    <div key={nanoid()} className={"postWrapper relative"}>
       <div className={"flex gap-5 items-center p-4 bg-white"}>
         <Button
           text={"Редактировать"}
@@ -26,10 +25,11 @@ const MyPostsItem = ({
           onClick={editBtnHandler}
         />
         <Button
-          successColor={false}
+            // successColor={false}
           text={"Удалить пост"}
           type={"button"}
           onClick={removeBtnHandler}
+          successColor={false}
         />
       </div>
       <Post key={nanoid()} data={post} />

@@ -36,19 +36,44 @@
         font-style: normal;
     }
 
+    html {
+        width: 100vw;
+        overflow-x: hidden;
+    }
+
     body {
         font-family: 'Poppins', sans-serif;
         background-color: #ffffff;
     }
 }
 
+.large {
+    width: 9rem;
+    height: 9rem;
+}
 
-.active {
+.account_link.active::before {
+    content: '';
+    position: absolute;
+    border-left: 10px solid #FEC62D;
+    height: 100%;
+}
+
+.account_link.active {
+    color: #58A9A5;
+}
+
+.account_link:hover li {
+    background-color: bisque;
+    /*color: #58A9A5;*/
+}
+
+.main_link.active {
     color: #58A9A5;
     position: relative;
 }
 
-.active::before {
+.main_link.active::before {
     content: '';
     position: absolute;
     width: 100%;

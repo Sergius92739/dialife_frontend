@@ -57,7 +57,7 @@ export const Comment = (props: TProps): JSX.Element => {
             {loading && <Loading/>}
             <div className={'flex flex-col p-2'}>
                 <div className="flex items-center gap-5">
-                    <Avatar fileName={item.author.avatar}/>
+                    <Avatar link={false} fileName={item.author.avatar}/>
                     <div className="text-lg font-medium">{item.author.username}</div>
                     <div className=" opacity-70">
                         <Moment fromNow>{item.createdAt}</Moment>
@@ -69,7 +69,7 @@ export const Comment = (props: TProps): JSX.Element => {
                             <div
                                 className={'flex flex-col gap-2 border border-[#58A9A5] border-l-[8px] px-2 py-1 rounded-md'}>
                                 <div className="flex items-center gap-5">
-                                    <Avatar fileName={item.answerTo.avatar}/>
+                                    <Avatar link={false} fileName={item.answerTo.avatar}/>
                                     <div className="text-lg font-medium">{item.answerTo.username}</div>
                                 </div>
                                 <div>

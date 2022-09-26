@@ -26,6 +26,12 @@ export const MyPostsPage = (): JSX.Element => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
+    useEffect(() => {
+        if (!isAuth) {
+            navigate(Paths.HOME);
+        }
+    }, [isAuth]);
+
     const fetchUserPosts = async () => {
         try {
             const response = await instAxios.get("/posts/user");
@@ -47,7 +53,6 @@ export const MyPostsPage = (): JSX.Element => {
                 toast.error(error.message, {theme: "colored"});
             });
     }, []);
-
 
 
     const handleRemoveBtn = (e: MouseEvent<HTMLButtonElement>) => {
@@ -73,7 +78,7 @@ export const MyPostsPage = (): JSX.Element => {
                 setPostId(id);
             }
         }
-        navigate(`${Paths.POSTS}/edit-post/${id}`);
+        navigate(`${Paths.EDIT_POST}/${id}`);
     };
 
     const handlePopupCancelBtn = () => {
@@ -98,14 +103,7 @@ export const MyPostsPage = (): JSX.Element => {
         <>
             {error && toast.error(status, {theme: "colored"})}
             {isAuth && (
-                <div className={"flex flex-col"}>
-                    <div>
-                        <Button
-                            text={"К постам"}
-                            type={"button"}
-                            onClick={() => navigate(Paths.POSTS)}
-                        />
-                    </div>
+                <div className={"flex flex-col gap-5"}>
                     {!posts?.length && (
                         <div className={"text-center text-lg"}>
                             У вас нет постов.

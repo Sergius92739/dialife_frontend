@@ -32,7 +32,7 @@ export const Auth = (): JSX.Element => {
     <>
       {isAuth ? (
         <div className="flex gap-2">
-          <Avatar fileName={user?.avatar as string}/>
+          <Avatar link={true} fileName={user?.avatar as string} tooltipText={'Личный кабинет'}/>
           <AuthBtn toggle={isAuth} onClick={handleLogout}/>
         </div>
       ) : (

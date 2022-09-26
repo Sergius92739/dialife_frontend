@@ -1,11 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 
 const plugin = require('tailwindcss/plugin')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
     content: ["./src/**/*.{js,jsx,ts,tsx}"],
     theme: {
         extend: {
+            colors: {
+                'success': '#58A9A5',
+                'danger': '#fc5c65'
+            },
             animation: {
                 ring: "ring 1.5s linear infinite",
                 text: "text 2s ease-in-out infinite",

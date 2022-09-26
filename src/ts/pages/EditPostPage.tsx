@@ -107,7 +107,7 @@ export const EditPostPage = (): JSX.Element => {
     <>
       {isAuth ? (
         <form
-          className="w-[75%] mx-auto text-[#404242] py-5"
+          className="mx-auto text-[#404242] py-5"
           onSubmit={(e) => e.preventDefault()}
         >
           <h1 className="text-2xl text-center font-black">

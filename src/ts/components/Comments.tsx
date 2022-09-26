@@ -22,11 +22,6 @@ export const Comments: React.FC<{ id: string }> = props => {
     const isAuth = useAppSelector(checkAuth);
 
     useEffect(() => {
-        console.log(comments);
-    }, [comments]);
-
-
-    useEffect(() => {
         getPostComments(id)
             .then((data) => setComments(data))
     }, []);

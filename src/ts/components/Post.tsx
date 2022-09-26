@@ -46,8 +46,10 @@ export const Post = ({data}: { data: IPost }) => {
         <>
             <article id={post._id} className="post p-4 flex flex-col bg-white">
                 <div className="flex items-center gap-5">
-                    <Avatar fileName={post.avatar}/>
-                    <div className="text-lg font-medium">{post.username}</div>
+                    <Avatar link={false} fileName={post.avatar}/>
+                    <div className={`text-lg font-medium ${post.username === 'admin' ? 'text-red-500' : ''}`}>
+                        {post.username}
+                    </div>
                     <div className=" opacity-70">
                         <Moment fromNow>{post.createdAt}</Moment>
                     </div>
