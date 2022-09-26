@@ -16,7 +16,7 @@ import {RegisterPage} from "./ts/pages/RegisterPage";
 import {Paths} from "./ts/paths";
 import {getMe} from "./ts/slices/authSlice/asyncFunc";
 import {AccountPage} from "./ts/pages/AccountPage";
-import {AccountInfo} from "./ts/pages/AccountInfo";
+import {AccountInfoPage} from "./ts/pages/AccountInfoPage";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -39,8 +39,8 @@ function App() {
                     <Route path={`${Paths.POSTS}/:id`} element={<PostPage/>}/>
                     <Route path={Paths.ARTICLES} element={<ArticlesPage/>}/>
                     <Route path={Paths.ACCOUNT} element={<AccountPage/>}>
-                        <Route index element={<AccountInfo/>}/>
-                        <Route path={Paths.PROFILE} element={<AccountInfo/>}/>
+                        <Route index element={<AccountInfoPage/>}/>
+                        <Route path={Paths.PROFILE} element={<AccountInfoPage/>}/>
                         <Route path={Paths.MY_POSTS} element={<MyPostsPage/>}/>
                         <Route path={Paths.NEW_POST} element={<AddPostPage/>}/>
                         <Route path={`${Paths.EDIT_POST}/:id`} element={<EditPostPage/>}/>

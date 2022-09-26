@@ -1,17 +1,17 @@
 import React, {Dispatch, FormEventHandler, MouseEventHandler, SetStateAction, useState} from "react";
-import no_avatar from "../../img/no_avatar.jpg";
+import no_avatar from "../../../img/no_avatar.jpg";
 import Moment from "react-moment";
-import {IComment} from "../slices/postSlice/interfaces"
+import {IComment} from "../../slices/postSlice/interfaces"
 import {Button} from "./Button";
 import {toast} from "react-toastify";
 import {Link, useParams} from "react-router-dom";
-import {useAppSelector} from "../hooks/hooks";
-import {checkAuth, userSelector} from "../slices/authSlice/authSlice";
+import {useAppSelector} from "../../hooks/hooks";
+import {checkAuth, userSelector} from "../../slices/authSlice/authSlice";
 import {AiOutlineClose} from 'react-icons/ai'
-import {createComment, TCreateCommentProps} from '../utils/createComment'
-import {getPostComments} from "../utils/getPostComments";
-import {Paths} from "../paths";
-import {Avatar} from "./Avatar";
+import {createComment, TCreateCommentProps} from '../../utils/createComment'
+import {fetchPostComments} from "../../utils/fetchPostComments";
+import {Paths} from "../../paths";
+import {Avatar} from "../Avatar";
 import {Loading} from "./Loading";
 
 type TProps = {
@@ -41,7 +41,7 @@ export const Comment = (props: TProps): JSX.Element => {
             }
             createComment(commentData)
                 .then((data) => toast.success(data?.message, {theme: "colored"}))
-                .then(() => getPostComments(item.postId))
+                .then(() => fetchPostComments(item.postId))
                 .then((data) => setFunc(data))
                 .then(() => setComment(''))
                 .then(() => setLoading(false));

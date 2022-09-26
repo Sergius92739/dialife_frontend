@@ -9,14 +9,14 @@ import {
     AiOutlineEye,
     AiOutlineLike,
 } from "react-icons/ai";
-import {IPost} from "../slices/postSlice/interfaces";
+import {IPost} from "../../slices/postSlice/interfaces";
 import DOMPurify from "dompurify";
-import {useAppDispatch, useAppSelector} from "../hooks/hooks";
-import {checkAuth, userSelector} from "../slices/authSlice/authSlice";
-import {likesHandler} from "../utils/likesHandler";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
+import {checkAuth, userSelector} from "../../slices/authSlice/authSlice";
+import {likesHandler} from "../../utils/likesHandler";
 import {useParams} from "react-router-dom";
 import {IconBtn} from "./IconBtn";
-import {Avatar} from "./Avatar";
+import {Avatar} from "../Avatar";
 
 export const Post = ({data}: { data: IPost }) => {
     const [post, setPost] = useState(data);

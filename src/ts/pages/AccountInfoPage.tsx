@@ -4,19 +4,18 @@ import {useAppSelector} from "../hooks/hooks";
 import {userSelector} from "../slices/authSlice/authSlice";
 import Moment from "react-moment";
 import {fetchUserCountComments} from "../utils/fetchUserCountComments";
-import {fetchUserPosts} from "../utils/fetchUserPosts";
-import {IPost} from "../slices/postSlice/interfaces";
+import {fetchUserPostsCount} from "../utils/fetchUserPostsCount";
 
-export const AccountInfo = () => {
+export const AccountInfoPage = () => {
     const user = useAppSelector(userSelector);
-    const [userComments, setUserComments] = useState<number | undefined>(undefined);
-    const [userPosts, setUserPosts] = useState<IPost[] | undefined>(undefined);
+    const [commentsCount, setCommentsCount] = useState<number | undefined>(undefined);
+    const [userPosts, setUserPosts] = useState<number | undefined>(undefined);
 
 
     useEffect(() => {
-        fetchUserCountComments(user?._id as string)
-            .then((data) => setUserComments(data?.count));
-        fetchUserPosts().then((data) => setUserPosts(data));
+        fetchUserCountComments()
+            .then((data) => setCommentsCount(data?.commentsCount));
+        fetchUserPostsCount().then((data) => setUserPosts(data.postsCount));
     }, [user]);
 
     return (
@@ -33,11 +32,11 @@ export const AccountInfo = () => {
                 </li>
                 <li className={'flex justify-between p-1 gap-10'}>
                     <div>Публикации:</div>
-                    <div className={'font-medium'}>{userPosts?.length}</div>
+                    <div className={'font-medium'}>{userPosts}</div>
                 </li>
                 <li className={'flex justify-between p-1 gap-64'}>
                     <div>Комментарии:</div>
-                    <div className={'font-medium'}>{userComments}</div>
+                    <div className={'font-medium'}>{commentsCount}</div>
                 </li>
             </ul>
         </div>

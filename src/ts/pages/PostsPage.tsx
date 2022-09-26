@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { PostItem } from "../components/PostItem";
+import { PostItem } from "../components/Main/PostItem";
 import { useAppDispatch, useAppSelector, useGetAllPosts } from "../hooks/hooks";
 import { getAllPosts } from "../slices/postSlice/asyncFunc";
 import { IPost } from "../slices/postSlice/interfaces";
@@ -12,7 +12,7 @@ import {
   postsSelector,
 } from "../slices/postSlice/postSlice";
 import { Paths } from "../paths";
-import { PopularPostItem } from "../components/PopularPostItem";
+import { PopularPostItem } from "../components/Main/PopularPostItem";
 import { nanoid } from "nanoid";
 
 export const PostsPage = (): JSX.Element => {

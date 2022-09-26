@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {Post} from "../components/Post";
+import {Post} from "../components/Main/Post";
 import {instAxios} from "../utils/axios";
 import {useParams} from "react-router-dom";
 import {IPost} from "../slices/postSlice/interfaces";
 import {useAppDispatch} from "../hooks/hooks";
 import {getAllPosts} from "../slices/postSlice/asyncFunc";
 import {toast} from "react-toastify";
-import {Comments} from "../components/Comments";
+import {Comments} from "../components/Main/Comments";
 
 export const PostPage = () => {
     const [post, setPost] = useState<IPost[]>([]);

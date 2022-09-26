@@ -9,7 +9,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import {Paths} from "../paths";
 import {checkAuth, userSelector} from "../slices/authSlice/authSlice";
-import {createPost} from "../slices/postSlice/asyncFunc";
+import {createPost, getAllPosts} from "../slices/postSlice/asyncFunc";
 import {
     postErrorSelector,
     postStatusSelector,
@@ -17,8 +17,8 @@ import {
 import {toast} from "react-toastify";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import {Button} from "../components/Button";
-import Popup from "../components/Popup";
+import {Button} from "../components/Main/Button";
+import Popup from "../components/Main/Popup";
 
 export const AddPostPage = (): JSX.Element => {
     const [title, setTitle] = useState("");
@@ -48,9 +48,9 @@ export const AddPostPage = (): JSX.Element => {
             data.append("title", title);
             data.append("text", text);
             data.append("image", image as Blob);
-            dispatch(createPost(data));
             resetForm();
-            navigate(Paths.POSTS);
+            dispatch(createPost(data))
+                .then(() => navigate(Paths.ACCOUNT))
         } catch (error: any) {
             toast.error(error.message, {theme: "colored"});
         }
@@ -62,14 +62,6 @@ export const AddPostPage = (): JSX.Element => {
         setTitle("");
         inputFileEl.current.value = "";
     };
-
-    const handleCancelBtn = () => {
-        if (text !== '' || title !== '') {
-            setShowPopup(true);
-        } else {
-            navigate(Paths.HOME)
-        }
-    }
 
     return (
         <>

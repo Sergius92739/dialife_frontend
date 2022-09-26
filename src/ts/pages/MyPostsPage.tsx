@@ -7,14 +7,14 @@ import {checkAuth} from "../slices/authSlice/authSlice";
 import {nanoid} from "nanoid";
 import {Paths} from "../paths";
 import {Link, useNavigate} from "react-router-dom";
-import {Button} from "../components/Button";
+import {Button} from "../components/Main/Button";
 import {removePost} from "../slices/postSlice/asyncFunc";
 import {
     postErrorSelector,
     postStatusSelector,
 } from "../slices/postSlice/postSlice";
-import Popup from "../components/Popup";
-import MyPostsItem from "../components/MyPostsItem";
+import Popup from "../components/Main/Popup";
+import MyPostsItem from "../components/Main/MyPostsItem";
 import {fetchUserPosts} from "../utils/fetchUserPosts";
 
 export const MyPostsPage = (): JSX.Element => {
@@ -79,7 +79,7 @@ export const MyPostsPage = (): JSX.Element => {
             if (postId) {
                 await dispatch(removePost(postId));
                 await setPopup(false);
-                navigate(Paths.POSTS);
+                navigate(Paths.ACCOUNT);
             }
         } catch (error: any) {
             console.error(error);

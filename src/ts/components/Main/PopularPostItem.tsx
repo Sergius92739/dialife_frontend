@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { IPost } from "../slices/postSlice/interfaces";
-import { Paths } from "../paths";
+import { IPost } from "../../slices/postSlice/interfaces";
+import { Paths } from "../../paths";
 import Moment from "react-moment";
 import 'moment/locale/ru';
 

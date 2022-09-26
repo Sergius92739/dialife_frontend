@@ -1,7 +1,7 @@
 import React from 'react'
-import { Auth } from './Auth/Auth'
-import { Logo } from './Logo/Logo'
-import { NavBar } from './NavBar/NavBar'
+import { Auth } from './Auth'
+import { Logo } from './Logo'
+import { NavBar } from './NavBar'
 
 export const Header = (): JSX.Element => {
   return (

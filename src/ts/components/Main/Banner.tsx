@@ -1,5 +1,5 @@
 import React from 'react';
-import happyPeople2 from '../../img/happy_people.jpg';
+import happyPeople2 from '../../../img/happy_people.jpg';
 
 export const Banner = (): JSX.Element => {
   return (

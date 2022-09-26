@@ -2,7 +2,7 @@ import {instAxios} from "./axios";
 import {IComment} from "../slices/postSlice/interfaces";
 import {toast} from "react-toastify";
 
-export const getPostComments = async (id: string) => {
+export const fetchPostComments = async (id: string) => {
     try {
         const response = await instAxios.get(`/posts/${id}/comments`);
         if (response.status !== 200) {

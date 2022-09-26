@@ -1,15 +1,15 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../hooks/hooks";
-import { Paths } from "../../../paths";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { Paths } from "../../paths";
 import {
   checkAuth,
   logout,
   userSelector,
-} from "../../../slices/authSlice/authSlice";
+} from "../../slices/authSlice/authSlice";
 import { toast } from "react-toastify";
-import {Avatar} from "../../Avatar";
-import {AuthBtn} from "../../AuthBtn";
+import {Avatar} from "../Avatar";
+import {AuthBtn} from "./AuthBtn";
 
 export const Auth = (): JSX.Element => {
   const isAuth = useAppSelector(checkAuth);

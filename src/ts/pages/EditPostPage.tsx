@@ -24,8 +24,8 @@ import { instAxios } from "../utils/axios";
 import { IPost } from "../slices/postSlice/interfaces";
 import { data } from "autoprefixer";
 import { string } from "prop-types";
-import { Button } from "../components/Button";
-import Popup from "../components/Popup";
+import { Button } from "../components/Main/Button";
+import Popup from "../components/Main/Popup";
 
 export const EditPostPage = (): JSX.Element => {
   const [popupVisible, setPopupVisible] = useState(false);

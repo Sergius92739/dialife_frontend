@@ -22,7 +22,7 @@ import {
     postStatusSelector,
     resetPostStatus,
 } from "../slices/postSlice/postSlice";
-import {Loading} from "./Loading";
+import {Loading} from "./Main/Loading";
 
 export const Layout = (): JSX.Element => {
     const authError = useAppSelector(errorSelector);

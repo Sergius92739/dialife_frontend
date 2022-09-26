@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {Button} from "./Button";
 import {Comment} from "./Comment";
-import {useAppSelector} from "../hooks/hooks";
+import {useAppSelector} from "../../hooks/hooks";
 import {toast} from "react-toastify";
-import {checkAuth, userSelector} from "../slices/authSlice/authSlice";
+import {checkAuth, userSelector} from "../../slices/authSlice/authSlice";
 import {nanoid} from "nanoid";
-import {instAxios} from "../utils/axios";
-import {IComment} from "../slices/postSlice/interfaces";
-import {createComment, TCreateCommentProps} from '../utils/createComment'
-import {getPostComments} from '../utils/getPostComments'
+import {instAxios} from "../../utils/axios";
+import {IComment} from "../../slices/postSlice/interfaces";
+import {createComment, TCreateCommentProps} from '../../utils/createComment'
+import {fetchPostComments} from '../../utils/fetchPostComments'
 import {Link} from "react-router-dom";
-import {Paths} from "../paths";
+import {Paths} from "../../paths";
 import {Loading} from "./Loading";
 
 export const Comments: React.FC<{ id: string }> = props => {
@@ -22,7 +22,7 @@ export const Comments: React.FC<{ id: string }> = props => {
     const isAuth = useAppSelector(checkAuth);
 
     useEffect(() => {
-        getPostComments(id)
+        fetchPostComments(id)
             .then((data) => setComments(data))
     }, [id]);
 
@@ -37,7 +37,7 @@ export const Comments: React.FC<{ id: string }> = props => {
             }
             createComment(commentData)
                 .then((data) => toast.success(data?.message, {theme: "colored"}))
-                .then(() => getPostComments(id))
+                .then(() => fetchPostComments(id))
                 .then((data) => setComments(data))
                 .then(() => setComment(''))
                 .then(() => setLoading(false));

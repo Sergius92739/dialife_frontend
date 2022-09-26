@@ -3,9 +3,7 @@ import React, {
     createRef,
     MutableRefObject,
     useEffect,
-    useCallback,
 } from "react";
-import no_avatar from "../../img/no_avatar.jpg";
 import {Button} from "./Button";
 import {
     AiOutlineEye,
@@ -15,26 +13,18 @@ import {
     AiFillLike,
     AiFillDislike,
 } from "react-icons/ai";
-import {IPost} from "../slices/postSlice/interfaces";
+import {IPost} from "../../slices/postSlice/interfaces";
 import {Link, useNavigate} from "react-router-dom";
-import {Paths} from "../paths";
+import {Paths} from "../../paths";
 import Moment from "react-moment";
 import "moment/locale/ru";
 import DOMPurify from "dompurify";
-import {useAppDispatch, useAppSelector} from "../hooks/hooks";
-import {
-    postLoadingSelector,
-    postStatusSelector,
-} from "../slices/postSlice/postSlice";
-import {checkAuth, userSelector} from "../slices/authSlice/authSlice";
-import {toast} from "react-toastify";
-import {fetchLike} from "../utils/fetchLike";
-import {likesHandler} from "../utils/likesHandler";
-import {instAxios} from "../utils/axios";
-import {getAllPosts} from "../slices/postSlice/asyncFunc";
-import {Loading} from "./Loading";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
+import {checkAuth, userSelector} from "../../slices/authSlice/authSlice";
+import {likesHandler} from "../../utils/likesHandler";
 import {IconBtn} from "./IconBtn";
-import {Avatar} from "./Avatar";
+import {Avatar} from "../Avatar";
+import {fetchPostAndUpdateViews} from "../../utils/fetchPostAndUpdateViews";
 
 export const PostItem = ({data}: { data: IPost }): JSX.Element => {
     const [post, setPost] = useState(data);
@@ -45,10 +35,6 @@ export const PostItem = ({data}: { data: IPost }): JSX.Element => {
         post?.dislikes.some((e) => e === user?._id)
     );
     const [readMore, setReadMore] = useState(true);
-    const ref1 = createRef() as MutableRefObject<HTMLDivElement>;
-    const ref2 = createRef() as MutableRefObject<HTMLDivElement>;
-    const ref3 = createRef() as MutableRefObject<HTMLDivElement>;
-    const ref4 = createRef() as MutableRefObject<HTMLDivElement>;
     const textContainerRef = createRef() as MutableRefObject<HTMLDivElement>;
     const cleanText = DOMPurify.sanitize(post?.text);
     const dispatch = useAppDispatch();
@@ -67,19 +53,10 @@ export const PostItem = ({data}: { data: IPost }): JSX.Element => {
 
     const handleLikeBtn = likesHandler({dispatch, setPost});
 
-    /* fetch post and update views */
-    const fetchPost = async (id: string) => {
-        const response = await instAxios.get(`/posts/${id}/updateViews`);
-        if (response.status !== 200) {
-            throw new Error(response.statusText);
-        }
-        return response.data as IPost;
-    };
-
     const handleReadMoreClick = () => {
         if (readMore) {
             setReadMore(false);
-            fetchPost(post._id).then((data) => setPost(data));
+            fetchPostAndUpdateViews(post._id).then((data) => setPost(data));
         } else {
             setReadMore(true);
         }

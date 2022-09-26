@@ -2,7 +2,7 @@ import React, { MouseEventHandler } from "react";
 import { nanoid } from "nanoid";
 import { Button } from "./Button";
 import { Post } from "./Post";
-import { IPost } from "../slices/postSlice/interfaces";
+import { IPost } from "../../slices/postSlice/interfaces";
 import {Comments} from "./Comments";
 
 export type TMyPostsItemProps = {
