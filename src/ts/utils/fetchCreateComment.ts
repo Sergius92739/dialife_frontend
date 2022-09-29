@@ -9,9 +9,9 @@ export type TCreateCommentProps = {
     commentId?: string;
 }
 
-export const createComment = async ({postId, comment, userId, type, commentId = ''}: TCreateCommentProps) => {
+export const fetchCreateComment = async ({postId, comment, userId, type, commentId = ''}: TCreateCommentProps) => {
     try {
-        const response = await instAxios.post(`/comments/create/${postId}`, {postId, comment, userId, type, commentId});
+        const response = await instAxios.post(`/comments/create`, {postId, comment, userId, type, commentId});
         if (response.status !== 200) {
             throw new Error(response.statusText);
         }

@@ -26,24 +26,29 @@ const MyPostsItem = ({
             {
                 hidden ? (
                     <div
-                        className={'flex gap-5 items-center p-3 bg-white cursor-pointer hover:bg-[bisque]'}
+                        className={'flex gap-5 whitespace-nowrap justify-between items-center py-1 px-6 bg-white rounded cursor-pointer hover:bg-bisque-light'}
                         onClick={() => setHidden(false)}
+                        title={'Кликни чтобы открыть пост'}
                     >
-                        <div className={'w-[40%] line-clamp-1'}>{post.title}</div>
-                        <div className={'w-[20%]'}>{<Moment format={'DD.MM.YYYY'}>{post.createdAt}</Moment>}</div>
-                        <div className={'w-1/3 flex-1 flex justify-between'}>
-                            <div><IconBtn iconOutline={<AiOutlineEye/>} count={post.views} text={'Просмотры'}/></div>
-                            <div><IconBtn iconOutline={<AiOutlineLike/>} count={post.likes.length} text={'Нравится'}/>
-                            </div>
-                            <div><IconBtn iconOutline={<AiOutlineDislike/>} count={post.dislikes.length}
-                                          text={'Не нравится'}/>
-                            </div>
-                            <div><IconBtn iconOutline={<AiOutlineComment/>} count={post.comments.length}
-                                          text={'Комментарии'}/>
+                        <div className={'line-clamp-1'}>{post.title}</div>
+                        <div className={'flex gap-5'}>
+                            {
+                                (post.createdAt !== post.updatedAt) && (
+                                    <div>
+                                        <span className={'mr-3 text-gray-400'}>изменен:</span>
+                                        <Moment className={''} format={'DD.MM.YYYY HH:mm'}>{post.updatedAt}</Moment>
+                                    </div>
+                                )
+                            }
+                            <div>
+                                <span className={'mr-3 text-gray-400'}>опубликован:</span>
+                                <Moment className={''} format={'DD.MM.YYYY HH:mm'}>{post.createdAt}</Moment>
                             </div>
                         </div>
                     </div>
-                ) : <button className={'m-3 text-blue-500 text-lg inline-block border-b-2 border-b-blue-500'} onClick={() => setHidden(true)}>свернуть</button>
+                ) : <button
+                    className={'m-3 text-blue-500 inline-block border-b-2 border-b-blue-500'}
+                    onClick={() => setHidden(true)}>свернуть</button>
             }
             <div className={`${hidden ? 'hidden' : ''}`}>
                 <div className={"flex gap-5 items-center p-4 bg-white"}>

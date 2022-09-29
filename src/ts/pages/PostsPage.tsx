@@ -36,7 +36,7 @@ export const PostsPage = (): JSX.Element => {
         ) : (
           <div className="text-lg text-center p-4">
             Здесь пока ничего нет.
-            <Link className="text-lg text-indigo-600 ml-3" to={Paths.NEW_POST}>
+            <Link className="text-lg text-indigo-500 ml-3" to={Paths.NEW_POST}>
               Добавьте пост
             </Link>
           </div>

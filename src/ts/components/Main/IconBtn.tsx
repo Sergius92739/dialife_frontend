@@ -2,15 +2,16 @@ import React, {createRef, MouseEventHandler, MutableRefObject} from "react";
 
 type TProps = {
     onClick?: MouseEventHandler<HTMLButtonElement> | undefined,
-    text?: string,
+    text: string,
     iconFill?: JSX.Element | undefined,
     iconOutline: JSX.Element,
     toggle?: boolean | undefined,
     count: number,
+    showTooltip?: boolean,
 }
 
 export const IconBtn = (props: TProps): JSX.Element => {
-    const {onClick, iconFill, iconOutline, toggle, text = '', count} = props;
+    const {onClick, iconFill, iconOutline, toggle, text, count, showTooltip = true} = props;
     const ref = createRef() as MutableRefObject<HTMLDivElement>;
     const textColors = new Map([
         ['Просмотры', 'text-blue-500'],
@@ -30,12 +31,16 @@ export const IconBtn = (props: TProps): JSX.Element => {
             <span className={`text-xl ${textColors.get(text)}`}>
                 {count}
               </span>
-            <div
-                ref={ref}
-                className="px-4 py-2 w-32 text-center bg-black text-white text-sm absolute z-10 top-10 -right-9 rounded hidden"
-            >
-                {text}
-            </div>
+            {
+                showTooltip && (
+                    <div
+                        ref={ref}
+                        className="px-4 py-2 w-32 text-center bg-black text-white text-sm absolute z-10 top-10 -right-9 rounded hidden"
+                    >
+                        {text}
+                    </div>
+                )
+            }
         </button>
     );
 };

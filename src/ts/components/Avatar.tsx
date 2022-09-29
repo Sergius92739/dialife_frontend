@@ -8,9 +8,10 @@ export type TProps = {
     tooltipText?: string;
     link: boolean;
     className?: string;
+    rounded?: boolean
 }
 
-export const Avatar = ({fileName, tooltipText = '', link = false, className = ''}: TProps): JSX.Element => {
+export const Avatar = ({fileName, tooltipText = '', link = false, className = '', rounded = true}: TProps): JSX.Element => {
     const ref = createRef() as MutableRefObject<HTMLDivElement>;
 
     const avatar = (): JSX.Element => {
@@ -18,7 +19,7 @@ export const Avatar = ({fileName, tooltipText = '', link = false, className = ''
             <div
                 onMouseOver={() => ref.current?.classList.remove("hidden")}
                 onMouseOut={() => ref.current?.classList.add("hidden")}
-                className={`w-12 h-12 rounded-full ${className}`}
+                className={`w-12 h-12 ${rounded ? 'rounded-full' : ''} ${className}`}
                 style={{
                     backgroundImage: fileName
                         ? `url(${process.env.REACT_APP_SERVER_URL}/${fileName})`

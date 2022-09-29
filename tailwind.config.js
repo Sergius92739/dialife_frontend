@@ -9,7 +9,8 @@ module.exports = {
         extend: {
             colors: {
                 'success': '#58A9A5',
-                'danger': '#fc5c65'
+                'danger': '#fc5c65',
+                'bisque-light': '#ffefdc',
             },
             animation: {
                 ring: "ring 1.5s linear infinite",

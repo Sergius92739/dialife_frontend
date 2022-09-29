@@ -7,7 +7,7 @@ import {checkAuth, userSelector} from "../../slices/authSlice/authSlice";
 import {nanoid} from "nanoid";
 import {instAxios} from "../../utils/axios";
 import {IComment} from "../../slices/postSlice/interfaces";
-import {createComment, TCreateCommentProps} from '../../utils/createComment'
+import {fetchCreateComment, TCreateCommentProps} from '../../utils/fetchCreateComment'
 import {fetchPostComments} from '../../utils/fetchPostComments'
 import {Link} from "react-router-dom";
 import {Paths} from "../../paths";
@@ -35,7 +35,7 @@ export const Comments: React.FC<{ id: string }> = props => {
                 comment,
                 type: 'comment',
             }
-            createComment(commentData)
+            fetchCreateComment(commentData)
                 .then((data) => toast.success(data?.message, {theme: "colored"}))
                 .then(() => fetchPostComments(id))
                 .then((data) => setComments(data))

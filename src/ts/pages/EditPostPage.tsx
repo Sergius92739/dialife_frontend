@@ -116,7 +116,7 @@ export const EditPostPage = (): JSX.Element => {
           {oldImage || image.size ? (
             <div className="flex mt-3 justify-between">
               <label
-                className="block py-2.5 px-12 bg-[#58A9A5] text-white rounded-lg text-xl cursor-pointer"
+                className="block py-2.5 px-12 bg-[#58A9A5] text-white rounded-lg lowercase cursor-pointer"
                 htmlFor="image"
               >
                 Выбрать другое изображение
@@ -137,7 +137,7 @@ export const EditPostPage = (): JSX.Element => {
           ) : (
             <div className="flex mt-3 justify-between">
               <label
-                className="block py-2.5 px-12 bg-[#58A9A5] text-white rounded-lg text-xl cursor-pointer"
+                className="block py-2.5 px-12 bg-[#58A9A5] text-white rounded-lg lowercase cursor-pointer"
                 htmlFor="image"
               >
                 Добавить изображение

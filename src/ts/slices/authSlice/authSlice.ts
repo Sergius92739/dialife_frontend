@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TRootState } from '../../store';
-import { IAuthState, IDataRegister, IDataLogin } from './interfaces';
+import {IAuthState, IDataRegister, IDataLogin, IUser} from './interfaces';
 import { registerUser, loginUser, getMe } from './asyncFunc'
 import { AxiosError } from 'axios';
 
@@ -25,6 +25,9 @@ export const authSlice = createSlice({
     },
     resetAuthStatus: (state: IAuthState) => {
       state.status = null;
+    },
+    setTheUser: (state: IAuthState, action: PayloadAction<IUser>) => {
+      state.user = action.payload;
     }
   },
   extraReducers: {
@@ -88,5 +91,5 @@ export const isLoadingSelector = (state: TRootState) => state.auth.isLoading;
 export const statusSelector = (state: TRootState) => state.auth.status;
 export const isAdminSelector = (state: TRootState) => state.auth.user?.isAdmin;
 export const errorSelector = (state: TRootState) => state.auth.error;
-export const { logout, resetAuthStatus } = authSlice.actions;
+export const { logout, resetAuthStatus, setTheUser } = authSlice.actions;
 export const authReducer = authSlice.reducer;

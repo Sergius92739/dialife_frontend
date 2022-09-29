@@ -48,8 +48,13 @@
 }
 
 .large {
-    width: 9rem;
-    height: 9rem;
+    width: 20rem;
+    height: 20rem;
+}
+
+.small {
+    width: 2.5rem;
+    height: 2.5rem;
 }
 
 .account_link.active::before {
@@ -61,11 +66,6 @@
 
 .account_link.active {
     color: #58A9A5;
-}
-
-.account_link:hover li {
-    background-color: bisque;
-    /*color: #58A9A5;*/
 }
 
 .main_link.active {

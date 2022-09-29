@@ -45,14 +45,24 @@ export const Post = ({data}: { data: IPost }) => {
     return (
         <>
             <article id={post._id} className="post p-4 flex flex-col bg-white">
-                <div className="flex items-center gap-5">
-                    <Avatar link={false} fileName={post.avatar}/>
-                    <div className={`text-lg font-medium ${post.username === 'admin' ? 'text-red-500' : ''}`}>
-                        {post.username}
+                <div className={'flex justify-between items-center'}>
+                    <div className="flex items-center gap-5">
+                        <Avatar link={false} fileName={post.avatar}/>
+                        <div className={`text-lg font-medium ${post.username === 'admin' ? 'text-red-500' : ''}`}>
+                            {post.username}
+                        </div>
+                        <div className=" opacity-70">
+                            <Moment fromNow>{post.createdAt}</Moment>
+                        </div>
                     </div>
-                    <div className=" opacity-70">
-                        <Moment fromNow>{post.createdAt}</Moment>
-                    </div>
+                    {
+                        (post.createdAt !== post.updatedAt) && (
+                            <div className={'opacity-70'}>
+                                <span className={'mr-3'}>изменён:</span>
+                                <Moment fromNow>{post.updatedAt}</Moment>
+                            </div>
+                        )
+                    }
                 </div>
                 <h3 className="text-3xl font-bold mt-3">{post.title}</h3>
                 {post.imgUrl && (

@@ -8,7 +8,7 @@ export enum Paths {
   ACCOUNT = "/dialife_frontend/account",
   PROFILE = '/dialife_frontend/account/profile',
   NEW_POST = "/dialife_frontend/account/add-post",
-  MY_POST = "/dialife_frontend/account/my-post",
+  // MY_POST = "/dialife_frontend/account/my-post",
   MY_POSTS = "/dialife_frontend/account/my-posts",
   MY_COMMENTS = "/dialife_frontend/account/comments",
   EDIT_POST = '/dialife_frontend/account/edit-post',

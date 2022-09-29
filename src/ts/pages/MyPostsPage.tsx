@@ -16,11 +16,13 @@ import {
 import Popup from "../components/Main/Popup";
 import MyPostsItem from "../components/Main/MyPostsItem";
 import {fetchUserPosts} from "../utils/fetchUserPosts";
+import {Loading} from "../components/Main/Loading";
 
 export const MyPostsPage = (): JSX.Element => {
     const [posts, setPosts] = useState<IPost[] | undefined>(undefined);
     const [popup, setPopup] = useState(false);
     const [postId, setPostId] = useState("");
+    const [loading, setLoading] = useState(false);
     const isAuth = useAppSelector(checkAuth);
     const status = useAppSelector(postStatusSelector);
     const error = useAppSelector(postErrorSelector);
@@ -34,14 +36,17 @@ export const MyPostsPage = (): JSX.Element => {
     }, [isAuth]);
 
     useEffect(() => {
+        setLoading(true);
         fetchUserPosts()
-            .then((data) => setPosts(data))
+            .then((data) => {
+                setPosts(data)
+                setLoading(false);
+            })
             .catch((error) => {
                 console.error(error);
                 toast.error(error.message, {theme: "colored"});
             });
     }, []);
-
 
     const handleRemoveBtn = (e: MouseEvent<HTMLButtonElement>) => {
         let id;
@@ -89,9 +94,10 @@ export const MyPostsPage = (): JSX.Element => {
 
     return (
         <>
+            {loading && <Loading/>}
             {error && toast.error(status, {theme: "colored"})}
             {isAuth && (
-                <div className={"flex flex-col gap-5"}>
+                <div className={"flex flex-col gap-3"}>
                     {!posts?.length && (
                         <div className={"text-center text-lg"}>
                             У вас нет постов.

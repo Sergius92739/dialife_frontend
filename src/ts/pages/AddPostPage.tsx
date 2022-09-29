@@ -50,7 +50,7 @@ export const AddPostPage = (): JSX.Element => {
             data.append("image", image as Blob);
             resetForm();
             dispatch(createPost(data))
-                .then(() => navigate(Paths.ACCOUNT))
+                .then(() => navigate(Paths.MY_POSTS))
         } catch (error: any) {
             toast.error(error.message, {theme: "colored"});
         }

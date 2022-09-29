@@ -41,6 +41,6 @@ export interface IComment {
     postId: string;
     type: string;
     createdAt: string;
-    updateAt: string;
+    updatedAt: string;
     __v: number;
 }

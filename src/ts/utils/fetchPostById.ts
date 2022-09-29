@@ -1,13 +1,14 @@
-import {instAxios} from "./axios";
 import {toast} from "react-toastify";
+import {instAxios} from "./axios";
+import {IPost} from "../slices/postSlice/interfaces";
 
-export const fetchUserCountComments = async () => {
+export const fetchPostById = async (id: string) => {
     try {
-        const response = await instAxios.get('/comments/user/count');
+        const response = await instAxios.get(`posts/${id}`);
         if (response.status !== 200) {
             throw new Error(response.statusText)
         }
-        return response.data as { commentsCount: number };
+        return response.data as IPost
     } catch (error: any) {
         console.error(error);
         toast.error(error.message, {theme: "colored"})

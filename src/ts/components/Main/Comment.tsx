@@ -8,7 +8,7 @@ import {Link, useParams} from "react-router-dom";
 import {useAppSelector} from "../../hooks/hooks";
 import {checkAuth, userSelector} from "../../slices/authSlice/authSlice";
 import {AiOutlineClose} from 'react-icons/ai'
-import {createComment, TCreateCommentProps} from '../../utils/createComment'
+import {fetchCreateComment, TCreateCommentProps} from '../../utils/fetchCreateComment'
 import {fetchPostComments} from "../../utils/fetchPostComments";
 import {Paths} from "../../paths";
 import {Avatar} from "../Avatar";
@@ -39,7 +39,7 @@ export const Comment = (props: TProps): JSX.Element => {
                 comment,
                 commentId: item._id,
             }
-            createComment(commentData)
+            fetchCreateComment(commentData)
                 .then((data) => toast.success(data?.message, {theme: "colored"}))
                 .then(() => fetchPostComments(item.postId))
                 .then((data) => setFunc(data))
